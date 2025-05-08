@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+// import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import ShipmentForm from '../components/ShipmentForm';
 import ShipmentTable from '../components/ShipmentTable';
@@ -16,7 +16,7 @@ export default function HomePage() {
     <div>
       <Navbar />
       <div className="p-4">
-        <h1 className="text-2xl font-bold mb-4">Panel Logistyczny</h1>
+        <h1 className="text-2xl font-bold mb-4">CargoSmart</h1>
         <ShipmentForm onAddShipment={addShipment} />
         <ShipmentTable shipments={shipments} />
         <Tracking trackingId={trackingId} setTrackingId={setTrackingId} shipments={shipments} />
