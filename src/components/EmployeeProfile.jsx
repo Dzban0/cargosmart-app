@@ -1,6 +1,8 @@
-import React from "react";
+import { useContext } from "react";
+import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
-const EmployeeTable = ({ employees }) => {
+const EmployeeProfile = ({ employees }) => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-2">Pracownicy</h2>
@@ -28,4 +30,4 @@ const EmployeeTable = ({ employees }) => {
   );
 };
 
-export default EmployeeTable;
+export default EmployeeProfile;
