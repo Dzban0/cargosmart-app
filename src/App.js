@@ -1,57 +1,66 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function App() {
-  const [orders, setOrders] = useState([]);
-  const [form, setForm] = useState({ client: '', origin: '', destination: '', cargo: '' });
-  const [selectedOrder, setSelectedOrder] = useState(null);
+function App() {
+  const [shipments, setShipments] = useState([]);
+  const [newShipment, setNewShipment] = useState({
+    orderNumber: '',
+    client: '',
+    origin: '',
+    destination: ''
+  });
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  useEffect(() => {
+    fetch('http://localhost:5000/api/shipments')
+      .then(res => res.json())
+      .then(data => setShipments(data));
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setOrders([...orders, { ...form, id: Date.now() }]);
-    setForm({ client: '', origin: '', destination: '', cargo: '' });
+  const handleAddShipment = async () => {
+    const res = await fetch('http://localhost:5000/api/shipments', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newShipment),
+    });
+    const data = await res.json();
+    setShipments([...shipments, data]);
   };
 
-  const OrderCard = ({ order }) => (
-    <Card className="my-2 p-4 hover:bg-gray-50 transition cursor-pointer" onClick={() => setSelectedOrder(order)}>
-      <CardContent>
-        <div className="text-lg font-semibold">{order.client} - {order.cargo}</div>
-        <div className="text-sm text-gray-500">{order.origin} ➜ {order.destination}</div>
-      </CardContent>
-    </Card>
-  );
-
   return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
-      <h1 className="text-3xl font-bold mb-6">CARGOSMART - Zarządzanie procesami w logistycze</h1>
+    <div style={{ padding: '2rem' }}>
+      <h1>CARGOSMART - Zarządzanie przesyłkami</h1>
 
-      {/* Order Form */}
-      <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-        <Input name="client" value={form.client} onChange={handleChange} placeholder="Klient" required />
-        <Input name="origin" value={form.origin} onChange={handleChange} placeholder="Załadunek" required />
-        <Input name="destination" value={form.destination} onChange={handleChange} placeholder="Rozładunek" required />
-        <Input name="cargo" value={form.cargo} onChange={handleChange} placeholder="Ładunek" required />
-        <Button type="submit" className="col-span-1 md:col-span-4">Dodaj zlecenie</Button>
-      </form>
+      <input
+        placeholder="Nr zamówienia"
+        value={newShipment.orderNumber}
+        onChange={e => setNewShipment({ ...newShipment, orderNumber: e.target.value })}
+      />
+      <input
+        placeholder="Klient"
+        value={newShipment.client}
+        onChange={e => setNewShipment({ ...newShipment, client: e.target.value })}
+      />
+      <input
+        placeholder="Pochodzenie"
+        value={newShipment.origin}
+        onChange={e => setNewShipment({ ...newShipment, origin: e.target.value })}
+      />
+      <input
+        placeholder="Cel"
+        value={newShipment.destination}
+        onChange={e => setNewShipment({ ...newShipment, destination: e.target.value })}
+      />
+      <button onClick={handleAddShipment}>Dodaj przesyłkę</button>
 
-      {/* Orders List */}
-      <div className="space-y-2">
-        {orders.map((order) => <OrderCard key={order.id} order={order} />)}
-      </div>
-
-      {/* Selected Order Details */}
-      {selectedOrder && (
-        <Card className="mt-6 p-4 bg-blue-50">
-          <CardContent>
-            <h2 className="text-xl font-bold mb-2">Szczegóły zlecenia</h2>
-            <p><strong>Klient:</strong> {selectedOrder.client}</p>
-            <p><strong>Załadunek:</strong> {selectedOrder.origin}</p>
-            <p><strong>Rozładunek:</strong> {selectedOrder.destination}</p>
-            <p><strong>Ładunek:</strong> {selectedOrder.cargo}</p>
-          </CardContent>
-        </Card>
-      )}
+      <h2>Lista przesyłek</h2>
+      <ul>
+        {shipments.map(shipment => (
+          <li key={shipment._id}>
+            {shipment.orderNumber} - {shipment.client} ({shipment.origin} → {shipment.destination}) [{shipment.status}]
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
+
+export default App;
