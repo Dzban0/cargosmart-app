@@ -1,11 +1,26 @@
-import jwt from 'jsonwebtoken';
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-export const authenticate = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.sendStatus(401);
-  jwt.verify(token, 'secret_key', (err, user) => {
-    if (err) return res.sendStatus(403);
-    req.user = user;
-    next();
-  });
+const generateAccessToken = (user) => {
+  return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "5m" });
+};
+
+const generateRefreshToken = (user) => {
+  return jwt.sign({ id: user.id }, process.env.REFRESH_SECRET, { expiresIn: "1d" });
+};
+
+const verifyAccessToken = (token) => {
+  return jwt.verify(token, process.env.JWT_SECRET);
+};
+
+const verifyRefreshToken = (token) => {
+  return jwt.verify(token, process.env.REFRESH_SECRET);
+};
+
+
+module.exports = {
+  generateAccessToken,
+  generateRefreshToken,
+  verifyAccessToken,
+  verifyRefreshToken,
 };
