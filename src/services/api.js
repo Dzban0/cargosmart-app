@@ -17,3 +17,44 @@ export async function apiRequest(endpoint, method = 'GET', body = null, token = 
 
   return response.json();
 }
+
+export const api = {
+  getWarehouses() {
+    return JSON.parse(localStorage.getItem("warehouses") || "[]");
+  },
+
+  getDeliveries() {
+    return JSON.parse(localStorage.getItem("deliveries") || "[]");
+  },
+
+  getProducts() {
+    return JSON.parse(localStorage.getItem("products") || "[]");
+  },
+
+  saveWarehouses(warehouses) {
+    localStorage.setItem("warehouses", JSON.stringify(warehouses));
+  },
+
+  saveDeliveries(deliveries) {
+    localStorage.setItem("deliveries", JSON.stringify(deliveries));
+  },
+
+  saveProducts(products) {
+    localStorage.setItem("products", JSON.stringify(products));
+  },
+
+  deleteWarehouse(id) {
+    let warehouses = this.getWarehouses().filter(w => w.id !== id);
+    this.saveWarehouses(warehouses);
+  },
+
+  deleteDelivery(id) {
+    let deliveries = this.getDeliveries().filter(d => d.id !== id);
+    this.saveDeliveries(deliveries);
+  },
+
+  deleteProduct(id) {
+    let products = this.getProducts().filter(p => p.id !== id);
+    this.saveProducts(products);
+  }
+};
