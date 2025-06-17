@@ -5,10 +5,10 @@ import { WarehouseForm } from "./components/WarehouseForm";
 import { WarehouseList } from "./components/WarehouseList";
 import { DeliveryForm } from "./components/DeliveryForm";
 import { DeliveryList } from "./components/DeliveryList";
+import { DeliveryDetails } from "./components/DeliveryDetails";
 import { ProductForm } from "./components/ProductForm";
 import { ProductDetails } from "./components/ProductDetails";
 import { KanbanBoard } from "./components/KanbanBoard";
-import { DeliveryDetails } from "./components/DeliveryDetails";
 
 import { fetchUser, isLoggedIn, logout } from "./services/authService";
 import { api } from "./services/api";
@@ -193,3 +193,5 @@ export const App = () => {
     </div>
   );
 };
+
+export default App;
