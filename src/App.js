@@ -104,7 +104,6 @@ export const App = () => {
       <Navbar />
       <div className="container mx-auto p-4">
         <div className="grid grid-cols-3 gap-4">
-          {/* LEWA KOLUMNA – Magazyny */}
           <div>
             {warehouseToEdit ? (
               <WarehouseForm
@@ -126,7 +125,6 @@ export const App = () => {
             )}
           </div>
 
-          {/* ŚRODKOWA KOLUMNA – Dostawy / Transporty */}
           <div>
             {selectedWarehouse && (
               <>
@@ -155,7 +153,6 @@ export const App = () => {
             )}
           </div>
 
-          {/* PRAWA KOLUMNA – Produkty w dostawie */}
           <div>
             {selectedDelivery && (
               <>
