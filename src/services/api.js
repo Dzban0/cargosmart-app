@@ -56,5 +56,13 @@ export const api = {
   deleteProduct(id) {
     let products = this.getProducts().filter(p => p.id !== id);
     this.saveProducts(products);
+  },
+
+  async addWarehouse(warehouse) {
+    return await apiRequest("warehouses", "POST", warehouse);
+  },
+
+  async updateWarehouse(id, warehouse) {
+    return await apiRequest(`warehouses/${id}`, "PUT", warehouse);
   }
 };

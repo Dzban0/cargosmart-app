@@ -1,44 +1,67 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { api } from '../services/api';
 
 export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
   const [name, setName] = useState(warehouseToEdit ? warehouseToEdit.name : "");
+  const [address, setAddress] = useState(warehouseToEdit ? warehouseToEdit.address : "");
+  // const [length, setLength] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.length : "");
+  // const [width, setWidth] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.width : "");
+  // const [height, setHeight] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.height : "");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (warehouseToEdit) {
-      // Aktualizacja magazynu
-      warehouseToEdit.name = name;
-      // api.updateWarehouse(warehouseToEdit); // możesz dopisać w serwisie
-    } else {
-      // Dodanie nowego magazynu
-      const newWarehouse = { id: Date.now(), name };
-      const warehouses = JSON.parse(localStorage.getItem("warehouses") || "[]");
-      warehouses.push(newWarehouse);
-      localStorage.setItem("warehouses", JSON.stringify(warehouses));
+  useEffect(() => {
+    if (!warehouseToEdit) {
+      setName("");
+      setAddress("");
+      // setLength("");
+      // setWidth("");
+      // setHeight("");
     }
+  }, [warehouseToEdit]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const warehouseData = {
+      name,
+      address,
+      // dimensions: {
+      //   length: Number(length),
+      //   width: Number(width),
+      //   height: Number(height),
+      // },
+    };
+
+    if (warehouseToEdit) {
+      const updatedWarehouse = { ...warehouseToEdit, ...warehouseData };
+      await api.updateWarehouse(updatedWarehouse);
+    } else {
+      await api.addWarehouse(warehouseData);
+    }
+
     setName("");
+    setAddress("");
+    // setLength("");
+    // setWidth("");
+    // setHeight("");
     onWarehouseAdded();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
-      <input
-        className="border p-2 w-full"
-        placeholder="Nazwa magazynu"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        required
-      />
-      <div className="flex gap-2 mt-2">
-        <button type="submit" className="bg-blue-500 text-white px-3 py-1 rounded">
-          {warehouseToEdit ? "Zapisz zmiany" : "Dodaj magazyn"}
-        </button>
-        {warehouseToEdit && (
-          <button type="button" className="bg-gray-400 px-3 py-1 rounded" onClick={onCancelEdit}>
-            Anuluj
-          </button>
-        )}
-      </div>
+    <form onSubmit={handleSubmit} className="space-y-2">
+      <h2 className="text-lg font-bold">{warehouseToEdit ? 'Edytuj' : 'Dodaj'} magazyn</h2>
+      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nazwa" required className="input" />
+      <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Adres" className="input" />
+      <input value={length} onChange={(e) => setLength(e.target.value)} placeholder="Długość (m)" className="input" />
+      <input value={width} onChange={(e) => setWidth(e.target.value)} placeholder="Szerokość (m)" className="input" />
+      <input value={height} onChange={(e) => setHeight(e.target.value)} placeholder="Wysokość (m)" className="input" />
+      
+      <button type="submit" className="btn btn-primary">
+        {warehouseToEdit ? 'Zapisz zmiany' : 'Dodaj magazyn'}
+      </button>
+
+      {warehouseToEdit && (
+        <button onClick={onCancelEdit} type="button" className="btn btn-secondary ml-2">Anuluj</button>
+      )}
     </form>
   );
 };
