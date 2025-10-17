@@ -50,7 +50,6 @@ router.post("/refresh", (req, res) => {
   }
 });
 
-// GET /me – dane zalogowanego użytkownika
 router.get("/me", authenticateToken, (req, res) => {
   const user = users.find(u => u.id === req.user.id);
   if (!user) return res.status(404).json({ error: "Nie znaleziono użytkownika" });
