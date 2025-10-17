@@ -21,7 +21,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-// LOGIN
 router.post("/login", (req, res) => {
   const { login, password } = req.body;
   const user = users.find(u => u.login === login && u.password === password);
@@ -35,7 +34,6 @@ router.post("/login", (req, res) => {
   res.json({ token, refreshToken });
 });
 
-// REFRESH TOKEN
 router.post("/refresh", (req, res) => {
   const { token } = req.body;
   try {
