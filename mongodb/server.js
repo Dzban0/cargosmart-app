@@ -78,15 +78,15 @@ app.post('/api/products', async (req, res) => {
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 
-async function processDB() {
-    const url = "mongodb://127.0.0.1:27017";
-    const client = new MongoClient(url);
+// async function processDB() {
+//     const url = "mongodb://127.0.0.1:27017";
+//     const client = new MongoClient(url);
+// 
+//     try {
+// 
+//     } catch (err) {
+//         console.error(err);
+//     } 
+// }
 
-    try {
-
-    } catch (err) {
-        console.error(err);
-    } 
-}
-
-processDB();
+// processDB();
