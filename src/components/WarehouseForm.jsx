@@ -1,20 +1,17 @@
-import { useState, useEffect } from "react";
-import { api } from '../services/api';
-
 export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
   const [name, setName] = useState(warehouseToEdit ? warehouseToEdit.name : "");
   const [address, setAddress] = useState(warehouseToEdit ? warehouseToEdit.address : "");
-  // const [length, setLength] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.length : "");
-  // const [width, setWidth] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.width : "");
-  // const [height, setHeight] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.height : "");
+  const [length, setLength] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.length : "");
+  const [width, setWidth] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.width : "");
+  const [height, setHeight] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.height : "");
 
   useEffect(() => {
     if (!warehouseToEdit) {
       setName("");
       setAddress("");
-      // setLength("");
-      // setWidth("");
-      // setHeight("");
+      setLength("");
+      setWidth("");
+      setHeight("");
     }
   }, [warehouseToEdit]);
 
@@ -24,11 +21,11 @@ export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit 
     const warehouseData = {
       name,
       address,
-      // dimensions: {
-      //   length: Number(length),
-      //   width: Number(width),
-      //   height: Number(height),
-      // },
+      dimensions: {
+        length: Number(length),
+        width: Number(width),
+        height: Number(height),
+      },
     };
 
     if (warehouseToEdit) {
@@ -40,9 +37,9 @@ export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit 
 
     setName("");
     setAddress("");
-    // setLength("");
-    // setWidth("");
-    // setHeight("");
+    setLength("");
+    setWidth("");
+    setHeight("");
     onWarehouseAdded();
   };
 
