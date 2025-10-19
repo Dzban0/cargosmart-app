@@ -19,6 +19,7 @@ export const Login = ({ onLoginSuccess }) => {
   return (
     <div className="flex items-center justify-center h-screen bg-gray-600">
       <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md w-80">
+        <h2 className="text-xl font-bold mb-4">CargoSmart </h2>
         <h2 className="text-xl font-bold mb-4">Logowanie</h2>
         {error && <p className="text-red-500">{error}</p>}
         <input

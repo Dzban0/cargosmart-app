@@ -15,7 +15,6 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// POST /login
 app.post("/login", (req, res) => {
   const { login, password } = req.body;
   const user = users.find((u) => u.login === login && u.password === password);
@@ -23,7 +22,6 @@ app.post("/login", (req, res) => {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
-  // Zawartość tokena (dostępna w frontendzie)
   const tokenPayload = {
     id: user.id,
     firstName: user.firstName,
@@ -37,7 +35,6 @@ app.post("/login", (req, res) => {
   res.json({ accessToken, refreshToken });
 });
 
-// POST /refresh
 app.post("/refresh", (req, res) => {
   const { token } = req.body;
   try {
@@ -59,7 +56,6 @@ app.post("/refresh", (req, res) => {
   }
 });
 
-// GET /me
 app.get("/me", (req, res) => {
   const auth = req.headers.authorization;
   if (!auth || !auth.startsWith("Bearer ")) {

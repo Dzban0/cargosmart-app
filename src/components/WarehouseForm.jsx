@@ -9,9 +9,9 @@ export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit 
     if (!warehouseToEdit) {
       setName("");
       setAddress("");
-      setLength("");
-      setWidth("");
-      setHeight("");
+    //   setLength("");
+    //   setWidth("");
+    //   setHeight("");
     }
   }, [warehouseToEdit]);
 
@@ -21,11 +21,11 @@ export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit 
     const warehouseData = {
       name,
       address,
-      dimensions: {
-        length: Number(length),
-        width: Number(width),
-        height: Number(height),
-      },
+      // dimensions: {
+      //   length: Number(length),
+      //   width: Number(width),
+      //   height: Number(height),
+      // },
     };
 
     if (warehouseToEdit) {
@@ -37,9 +37,9 @@ export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit 
 
     setName("");
     setAddress("");
-    setLength("");
-    setWidth("");
-    setHeight("");
+    // setLength("");
+    // setWidth("");
+    // setHeight("");
     onWarehouseAdded();
   };
 
