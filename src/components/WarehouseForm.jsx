@@ -1,64 +1,62 @@
+import { useState } from "react";
+import axios from "axios";
+
 export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
   const [name, setName] = useState(warehouseToEdit ? warehouseToEdit.name : "");
-  const [address, setAddress] = useState(warehouseToEdit ? warehouseToEdit.address : "");
-  const [length, setLength] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.length : "");
-  const [width, setWidth] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.width : "");
-  const [height, setHeight] = useState(warehouseToEdit ? warehouseToEdit.dimensions?.height : "");
-
-  useEffect(() => {
-    if (!warehouseToEdit) {
-      setName("");
-      setAddress("");
-    //   setLength("");
-    //   setWidth("");
-    //   setHeight("");
-    }
-  }, [warehouseToEdit]);
+  const [location, setLocation] = useState(warehouseToEdit ? warehouseToEdit.location : "");
+  const [capacity, setCapacity] = useState(warehouseToEdit ? warehouseToEdit.capacity : "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const warehouseData = {
-      name,
-      address,
-      // dimensions: {
-      //   length: Number(length),
-      //   width: Number(width),
-      //   height: Number(height),
-      // },
-    };
+    try {
+      const payload = { name, location, capacity };
 
-    if (warehouseToEdit) {
-      const updatedWarehouse = { ...warehouseToEdit, ...warehouseData };
-      await api.updateWarehouse(updatedWarehouse);
-    } else {
-      await api.addWarehouse(warehouseData);
+      // Jeśli edytujesz magazyn
+      if (warehouseToEdit) {
+        await axios.put(`http://localhost:5000/api/warehouses/${warehouseToEdit.id}`, payload);
+      } else {
+        // Jeśli tworzysz nowy magazyn
+        await axios.post("http://localhost:5000/api/warehouses", payload);
+      }
+
+      onWarehouseAdded(); // Aktualizowanie listy magazynów
+    } catch (error) {
+      console.error("Błąd podczas zapisywania magazynu:", error);
     }
-
-    setName("");
-    setAddress("");
-    // setLength("");
-    // setWidth("");
-    // setHeight("");
-    onWarehouseAdded();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-2">
-      <h2 className="text-lg font-bold">{warehouseToEdit ? 'Edytuj' : 'Dodaj'} magazyn</h2>
-      <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Nazwa" required className="input" />
-      <input value={address} onChange={(e) => setAddress(e.target.value)} placeholder="Adres" className="input" />
-      <input value={length} onChange={(e) => setLength(e.target.value)} placeholder="Długość (m)" className="input" />
-      <input value={width} onChange={(e) => setWidth(e.target.value)} placeholder="Szerokość (m)" className="input" />
-      <input value={height} onChange={(e) => setHeight(e.target.value)} placeholder="Wysokość (m)" className="input" />
-      
-      <button type="submit" className="btn btn-primary">
-        {warehouseToEdit ? 'Zapisz zmiany' : 'Dodaj magazyn'}
-      </button>
-
-      {warehouseToEdit && (
-        <button onClick={onCancelEdit} type="button" className="btn btn-secondary ml-2">Anuluj</button>
-      )}
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Nazwa:</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Lokalizacja:</label>
+        <input
+          type="text"
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Pojemność:</label>
+        <input
+          type="number"
+          value={capacity}
+          onChange={(e) => setCapacity(e.target.value)}
+          required
+        />
+      </div>
+      <button type="submit">Zapisz magazyn</button>
+      {warehouseToEdit && <button type="button" onClick={onCancelEdit}>Anuluj</button>}
     </form>
   );
 };
