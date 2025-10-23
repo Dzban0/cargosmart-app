@@ -1,5 +1,5 @@
 import { apiRequest } from './api';
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:5000";
 
 export const login = async (login, password) => {
   const res = await fetch(`${API_URL}/login`, {
@@ -9,6 +9,23 @@ export const login = async (login, password) => {
   });
 
   if (!res.ok) throw new Error("Invalid credentials");
+
+  const data = await res.json();
+  localStorage.setItem("accessToken", data.accessToken);
+  localStorage.setItem("refreshToken", data.refreshToken);
+};
+
+export const register = async (login, password) => {
+  const res = await fetch(`${API_URL}/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ login, password }),
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json();
+    throw new Error(errorData.message || "Rejestracja nie powiodła się");
+  }
 
   const data = await res.json();
   localStorage.setItem("accessToken", data.accessToken);
