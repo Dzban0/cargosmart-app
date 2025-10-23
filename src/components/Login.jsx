@@ -1,21 +1,21 @@
 import { useState } from "react"; 
-import { login, register } from "../services/authService"; // Zakładając, że funkcja register jest dostępna w authService
+import { login, register } from "../services/authService"; 
 
-export const Login = ({ onLoginSuccess }) => { // Zmiana z AuthForm na Login
+export const Login = ({ onLoginSuccess }) => { 
   const [loginInput, setLoginInput] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [isRegistering, setIsRegistering] = useState(false); // Stan do przełączania formularzy
+  const [isRegistering, setIsRegistering] = useState(false); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (isRegistering) {
-        await register(loginInput, password);  // Rejestracja
-        onLoginSuccess(); // Przekierowanie po udanej rejestracji
+        await register(loginInput, password);  
+        onLoginSuccess(); 
       } else {
-        await login(loginInput, password);  // Logowanie
-        onLoginSuccess(); // Przekierowanie po udanym logowaniu
+        await login(loginInput, password);
+        onLoginSuccess(); 
       }
     } catch (err) {
       setError(isRegistering ? "Błąd rejestracji" : "Nieprawidłowe login lub hasło");
@@ -61,7 +61,7 @@ export const Login = ({ onLoginSuccess }) => { // Zmiana z AuthForm na Login
           {isRegistering ? "Masz już konto? " : "Nie masz konta? "}
           <button
             type="button"
-            onClick={() => setIsRegistering(!isRegistering)} // Przełączanie formularzy
+            onClick={() => setIsRegistering(!isRegistering)}
             className="text-blue-500 hover:underline"
           >
             {isRegistering ? "Zaloguj się" : "Zarejestruj się"}
