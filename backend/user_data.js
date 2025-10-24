@@ -8,7 +8,7 @@ async function processDB() {
 
     try {
         await client.connect();
-        const db = client.db("UserList");
+        const db = client.db("CargoSmartDB");
 
         let collection = db.collection("users");
 

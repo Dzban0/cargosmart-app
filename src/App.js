@@ -31,6 +31,12 @@ export const App = () => {
   const deliveryDetailsRef = useRef(null);
 
   useEffect(() => {
+     const fetchWarehouses = async () => {
+      const response = await fetch("/api/warehouses");
+      const data = await response.json();
+      setWarehouses(data);
+    };
+    
     const loadUser = async () => {
       const data = await fetchUser();
       if (data) setUser(data);
