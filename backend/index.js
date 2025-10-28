@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const { port } = require('./config'); 
 const { processWarehouseDB } = require('./warehouse_data');
 const { processDeliveryDB } = require('./delivery_data');
 const { processDB } = require('./user_data');
@@ -38,7 +39,6 @@ app.post('/add-deliveries', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+app.listen(port, function() {
+   console.log('Serwer słucha... http://localhost:' + port); 
 });

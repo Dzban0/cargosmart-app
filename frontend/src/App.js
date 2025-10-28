@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from "react";
+import './App.css';
 import { Navbar } from "./components/Navbar";
 import { Login } from "./components/Login";
-import { Header } from "./components/Header";
-import { WarehouseForm } from "./components/WarehouseForm";
-import { WarehouseList } from "./components/WarehouseList";
-import { DeliveryForm } from "./components/DeliveryForm";
-import { DeliveryList } from "./components/DeliveryList";
-import { DeliveryDetails } from "./components/DeliveryDetails";
-import { ProductForm } from "./components/ProductForm";
-import { ProductDetails } from "./components/ProductDetails";
+import { WarehouseForm } from "./components/Warehouse/WarehouseForm";
+import { WarehouseList } from "./components/Warehouse/WarehouseList";
+import { DeliveryForm } from "./components/Delivery/DeliveryForm";
+import { DeliveryList } from "./components/Delivery/DeliveryList";
+import { DeliveryDetails } from "./components/Delivery/DeliveryDetails";
+import { ProductForm } from "./components/Product/ProductForm";
+import { ProductDetails } from "./components/Product/ProductDetails";
 import { KanbanBoard } from "./components/KanbanBoard";
 
 import { fetchUser, isLoggedIn, logout } from "./services/authService";

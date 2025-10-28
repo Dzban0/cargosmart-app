@@ -13,9 +13,9 @@ async function processDB() {
 
         
         // const warehouses = [
-        //     { name: "Magazyn A", location: "Warszawa", contents: ["Produkt1", "Produkt2", "Produkt3"] },
+        //     { name: "Magazyn A", location: "Kraków", contents: ["Produkt1", "Produkt2", "Produkt3"] },
         //     { name: "Magazyn B", location: "Kraków", contents: ["Produkt4", "Produkt5"] },
-        //     { name: "Magazyn C", location: "Wrocław", contents: ["Produkt6", "Produkt7", "Produkt8"] },
+        //     { name: "Magazyn C", location: "Katowice", contents: ["Produkt6", "Produkt7", "Produkt8"] },
         // ];
 
         const options = { ordered: true };
