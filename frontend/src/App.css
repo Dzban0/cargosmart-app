@@ -39,3 +39,10 @@ body {
     transform: rotate(360deg);
   }
 }
+
+.title {
+    font-size: 1.25rem;
+    color: #000000;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}

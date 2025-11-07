@@ -1,8 +1,7 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import { api } from "../../services/api";
+import api from "../../services/api";
 
-export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
+const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
   const [name, setName] = useState("");
   const [location, setLocation] = useState("");
 
@@ -16,57 +15,57 @@ export const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit 
     }
   }, [warehouseToEdit]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const warehouseData = { name, location };
 
-    if (warehouseToEdit) {
-      api.updateWarehouse(warehouseToEdit.id, { name, location });
-    } else {
-      api.addWarehouse({ name, location });
+    try {
+      if (warehouseToEdit) {
+        await api.updateWarehouse(warehouseToEdit.id, warehouseData);
+      } else {
+        await api.createWarehouse(warehouseData);
+      }
+
+      onWarehouseAdded();
+      setName("");
+      setLocation("");
+    } catch (error) {
+      console.error("Błąd przy zapisie magazynu:", error);
     }
-
-    setName("");
-    setLocation("");
-    onWarehouseAdded();
   };
 
   return (
-    <div className="p-4 bg-white rounded shadow-md dark:bg-gray-700 mb-4">
-      <h2 className="text-lg font-semibold mb-2">
-        {warehouseToEdit ? "Edytuj magazyn" : "Dodaj magazyn"}
-      </h2>
-      <form onSubmit={handleSubmit} className="space-y-2">
-        <div>
-          <label className="block text-sm mb-1">Nazwa magazynu</label>
-          <input
-            type="text"
-            className="w-full border rounded px-2 py-1 text-black"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm mb-1">Lokalizacja</label>
-          <input
-            type="text"
-            className="w-full border rounded px-2 py-1 text-black"
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            required
-          />
-        </div>
-        <div className="flex gap-2 mt-2">
-          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-            {warehouseToEdit ? "Zapisz zmiany" : "Dodaj"}
+    <form onSubmit={handleSubmit} className="warehouse-form p-4 bg-white rounded shadow-md mb-6">
+      <input
+        type="text"
+        placeholder="Nazwa magazynu"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+        className="input-field mb-4 p-2 border rounded w-full"
+      />
+      <input
+        type="text"
+        placeholder="Lokalizacja"
+        value={location}
+        onChange={(e) => setLocation(e.target.value)}
+        required
+        className="input-field mb-4 p-2 border rounded w-full"
+      />
+
+      <div className="buttons flex justify-between">
+        <button type="submit" className="submit-btn bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+          {warehouseToEdit ? "Edytuj magazyn" : "Dodaj magazyn"}
+        </button>
+
+        {warehouseToEdit && (
+          <button type="button" onClick={onCancelEdit} className="cancel-btn text-gray-500 hover:text-gray-700">
+            Anuluj edycję
           </button>
-          {warehouseToEdit && (
-            <button type="button" onClick={onCancelEdit} className="bg-gray-400 hover:bg-gray-500 text-white px-3 py-1 rounded">
-              Anuluj
-            </button>
-          )}
-        </div>
-      </form>
-    </div>
+        )}
+      </div>
+    </form>
   );
 };
+
+export default WarehouseForm;

@@ -1,4 +1,4 @@
-export const ProductDetails = ({ productId, onClose }) => {
+const ProductDetails = ({ productId, onClose }) => {
   const product = JSON.parse(localStorage.getItem("products") || "[]").find((p) => p.id === productId);
 
   if (!product) return null;
@@ -11,3 +11,5 @@ export const ProductDetails = ({ productId, onClose }) => {
     </div>
   );
 };
+
+export default ProductDetails;

@@ -1,7 +1,8 @@
 import React from "react";
-import { api } from "../../services/api";
+import './Warehouse.css';
+import api from "../../services/api";
 
-export const WarehouseList = ({
+const WarehouseList = ({
   warehouses,
   onSelectWarehouse,
   onWarehouseDeleted,
@@ -16,26 +17,26 @@ export const WarehouseList = ({
 
   if (!warehouses || warehouses.length === 0) {
     return (
-      <div className="bg-white dark:bg-gray-700 p-4 rounded shadow">
-        <p className="text-gray-500 text-sm">Brak magazynów do wyświetlenia.</p>
+      <div className="warehouse-list">
+        <p>Brak magazynów do wyświetlenia.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white dark:bg-gray-700 p-4 rounded shadow">
-      <h2 className="text-lg font-semibold mb-2">Lista magazynów</h2>
-      <ul className="divide-y divide-gray-200 dark:divide-gray-600">
+    <div className="warehouse-list">
+      <h2>Lista magazynów</h2>
+      <ul>
         {warehouses.map((warehouse) => (
           <li
             key={warehouse.id}
-            className="flex justify-between items-center py-2 hover:bg-gray-100 dark:hover:bg-gray-600 px-2 rounded cursor-pointer"
+            className="warehouse-item"
           >
             <div onClick={() => onSelectWarehouse(warehouse)}>
-              <p className="font-medium">{warehouse.name}</p>
-              <p className="text-sm text-gray-500">{warehouse.location}</p>
+              <p className="warehouse-name">{warehouse.name}</p>
+              <p className="warehouse-location">{warehouse.location}</p>
             </div>
-            <div className="flex gap-2">
+            <div className="action-buttons">
               <button onClick={() => onEditWarehouse(warehouse)} className="text-blue-500 hover:text-blue-700">
                 Edytuj
               </button>
@@ -49,3 +50,5 @@ export const WarehouseList = ({
     </div>
   );
 };
+
+export default WarehouseList;

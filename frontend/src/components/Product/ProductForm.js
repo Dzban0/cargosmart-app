@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const ProductForm = ({ deliveryId, onProductAdded }) => {
+const ProductForm = ({ deliveryId, onProductAdded }) => {
   const [name, setName] = useState("");
 
   const handleSubmit = (e) => {
@@ -26,3 +26,5 @@ export const ProductForm = ({ deliveryId, onProductAdded }) => {
     </form>
   );
 };
+
+export default ProductForm;

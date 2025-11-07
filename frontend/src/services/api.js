@@ -1,68 +1,30 @@
-const API_URL = "http://localhost:3001";
+const API_URL = "http://localhost:3001/api";
 
-export async function apiRequest(endpoint, method = 'GET', body = null, token = null) {
-  const headers = { 'Content-Type': 'application/json' };
-  if (token) headers['Authorization'] = `Bearer ${token}`;
-
-  const response = await fetch(`${API_URL}/${endpoint}`, {
-    method,
-    headers,
-    body: body ? JSON.stringify(body) : null,
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message || 'API Error');
-  }
-
-  return response.json();
-}
-
-export const api = {
-  getWarehouses() {
-    return JSON.parse(localStorage.getItem("warehouses") || "[]");
+const api = {
+  getWarehouses: async () => {
+    const res = await fetch(`${API_URL}/warehouses`);
+    return res.json();
   },
-
-  getDeliveries() {
-    return JSON.parse(localStorage.getItem("deliveries") || "[]");
+  addWarehouse: async (warehouse) => {
+    const res = await fetch(`${API_URL}/warehouses`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(warehouse),
+    });
+    return res.json();
   },
-
-  getProducts() {
-    return JSON.parse(localStorage.getItem("products") || "[]");
+  getProducts: async () => {
+    const res = await fetch(`${API_URL}/products`);
+    return res.json();
   },
-
-  saveWarehouses(warehouses) {
-    localStorage.setItem("warehouses", JSON.stringify(warehouses));
+  addProduct: async (product) => {
+    const res = await fetch(`${API_URL}/products`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(product),
+    });
+    return res.json();
   },
-
-  saveDeliveries(deliveries) {
-    localStorage.setItem("deliveries", JSON.stringify(deliveries));
-  },
-
-  saveProducts(products) {
-    localStorage.setItem("products", JSON.stringify(products));
-  },
-
-  deleteWarehouse(id) {
-    let warehouses = this.getWarehouses().filter(w => w.id !== id);
-    this.saveWarehouses(warehouses);
-  },
-
-  deleteDelivery(id) {
-    let deliveries = this.getDeliveries().filter(d => d.id !== id);
-    this.saveDeliveries(deliveries);
-  },
-
-  deleteProduct(id) {
-    let products = this.getProducts().filter(p => p.id !== id);
-    this.saveProducts(products);
-  },
-
-  async addWarehouse(warehouse) {
-    return await apiRequest("warehouses", "POST", warehouse);
-  },
-
-  async updateWarehouse(id, warehouse) {
-    return await apiRequest(`warehouses/${id}`, "PUT", warehouse);
-  }
 };
+
+export default api;

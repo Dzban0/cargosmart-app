@@ -1,0 +1,140 @@
+.warehouse-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: auto;
+}
+
+.warehouse-form input {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.warehouse-form input:focus {
+  outline: none;
+  border-color: #4CAF50;
+}
+
+.warehouse-form button {
+  padding: 0.75rem;
+  border: none;
+  background-color: #4CAF50;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.warehouse-form button:hover {
+  background-color: #45a049;
+}
+
+.warehouse-form button[type="button"] {
+  background-color: #f44336;
+}
+
+.warehouse-form button[type="button"]:hover {
+  background-color: #d32f2f;
+}
+
+.warehouse-form .cancel-edit {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.875rem;
+  text-align: center;
+  color: #757575;
+  cursor: pointer;
+}
+
+.warehouse-form .cancel-edit:hover {
+  color: #333;
+}
+
+/* Ogólny wygląd listy magazynów */
+.warehouse-list {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.warehouse-list h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.warehouse-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.warehouse-list .warehouse-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.warehouse-list .warehouse-item:hover {
+  background-color: #f1f1f1;
+}
+
+.warehouse-list .warehouse-item .warehouse-name {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.warehouse-list .warehouse-item .warehouse-location {
+  color: #757575;
+  font-size: 0.875rem;
+}
+
+.warehouse-list .warehouse-item .action-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.warehouse-list .warehouse-item .edit-button,
+.warehouse-list .warehouse-item .delete-button {
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.warehouse-list .warehouse-item .edit-button {
+  color: #1976d2;
+  background-color: #e3f2fd;
+}
+
+.warehouse-list .warehouse-item .edit-button:hover {
+  background-color: #bbdefb;
+}
+
+.warehouse-list .warehouse-item .delete-button {
+  color: #d32f2f;
+  background-color: #fbe9e7;
+}
+
+.warehouse-list .warehouse-item .delete-button:hover {
+  background-color: #ffcccb;
+}
