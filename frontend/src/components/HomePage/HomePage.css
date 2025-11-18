@@ -1,9 +1,10 @@
 .title {
-  font-size: 1.25rem;
   background-color: #fff;
+  font-size: 1.25rem;
   color: #000000;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 1px;
 }
 
 .note {

@@ -23,7 +23,8 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
       if (warehouseToEdit) {
         await api.updateWarehouse(warehouseToEdit.id, warehouseData);
       } else {
-        await api.createWarehouse(warehouseData);
+        const saved = await api.addWarehouse(warehouseData);
+        onWarehouseAdded(saved);
       }
 
       onWarehouseAdded();

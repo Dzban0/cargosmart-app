@@ -17,15 +17,12 @@ const DeliveryForm = ({ warehouseId, onDeliveryAdded }) => {
       status: "Oczekująca",
     };
 
-    // 🔸 Zapisz w localStorage
     const deliveries = JSON.parse(localStorage.getItem("deliveries") || "[]");
     deliveries.push(newDelivery);
     localStorage.setItem("deliveries", JSON.stringify(deliveries));
 
-    // 🔸 Powiadom rodzica o dodaniu
     onDeliveryAdded(newDelivery);
 
-    // 🔸 Wyczyść formularz
     setDeliveryName("");
     setDeliveryDate("");
   };

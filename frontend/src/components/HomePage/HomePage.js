@@ -14,7 +14,7 @@ const HomePage = ({ warehouses, deliveries, products, setWarehouses, setDeliveri
   const [selectedDelivery, setSelectedDelivery] = useState(null);
   const [warehouseToEdit, setWarehouseToEdit] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
-
+  
   const fetchWarehouses = async () => {
     try {
       const data = await api.getWarehouses();

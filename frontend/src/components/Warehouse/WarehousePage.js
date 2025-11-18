@@ -22,10 +22,11 @@ const WarehousePage = () => {
     }
   };
 
-  const handleWarehouseAdded = () => {
-    fetchWarehouses();
+  const handleWarehouseAdded = (newWarehouse) => {
+    setWarehouses(prev => [...prev, newWarehouse]);
     setWarehouseToEdit(null);
   };
+
 
   const handleWarehouseDeleted = () => {
     fetchWarehouses();

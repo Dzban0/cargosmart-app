@@ -10,7 +10,7 @@ async function processDB() {
 
         const dbList = await client.db().admin().listDatabases();
 
-        console.log("Databases");
+        console.log("Zapisane dane bazy");
         dbList.databases.forEach(db => console.log(db.name) );
 
     } catch (err) {
