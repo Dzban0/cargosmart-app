@@ -6,8 +6,8 @@ import "./Warehouse.css";
 
 const WarehousePage = () => {
   const [warehouses, setWarehouses] = useState([]);
-  const [selectedWarehouse, setSelectedWarehouse] = useState(null);
   const [warehouseToEdit, setWarehouseToEdit] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetchWarehouses();
@@ -22,11 +22,18 @@ const WarehousePage = () => {
     }
   };
 
-  const handleWarehouseAdded = (newWarehouse) => {
-    setWarehouses(prev => [...prev, newWarehouse]);
-    setWarehouseToEdit(null);
-  };
+  const handleWarehouseAdded = (warehouse) => {
+    if (warehouseToEdit) {
+      setWarehouses(prev =>
+        prev.map(w => (w.id === warehouse.id ? warehouse : w))
+      );
+    } else {
+      setWarehouses(prev => [...prev, warehouse]);
+    }
 
+    setWarehouseToEdit(null);
+    setShowForm(false);
+  };
 
   const handleWarehouseDeleted = () => {
     fetchWarehouses();
@@ -34,29 +41,40 @@ const WarehousePage = () => {
 
   const handleEditWarehouse = (warehouse) => {
     setWarehouseToEdit(warehouse);
+    setShowForm(true);
   };
 
   const handleCancelEdit = () => {
     setWarehouseToEdit(null);
+    setShowForm(false);
   };
 
   return (
     <div className="warehouse-page p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">
-        {warehouseToEdit ? "Edycja magazynu" : "Dodaj nowy magazyn"}
-      </h1>
 
-      {/* Formularz dodawania / edycji */}
-      <WarehouseForm
-        onWarehouseAdded={handleWarehouseAdded}
-        warehouseToEdit={warehouseToEdit}
-        onCancelEdit={handleCancelEdit}
-      />
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">
+          {warehouseToEdit ? "Edycja magazynu" : "Magazyny"}
+        </h1>
 
-      {/* Lista magazynów */}
+        {!showForm && (
+          <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={() => setShowForm(true)}>
+            Dodaj nowy magazyn
+          </button>
+        )}
+      </div>
+
+      {showForm && (
+        <WarehouseForm
+          onWarehouseAdded={handleWarehouseAdded}
+          warehouseToEdit={warehouseToEdit}
+          onCancelEdit={handleCancelEdit}
+        />
+      )}
+
       <WarehouseList
         warehouses={warehouses}
-        onSelectWarehouse={setSelectedWarehouse}
+        onSelectWarehouse={() => {}}
         onWarehouseDeleted={handleWarehouseDeleted}
         onEditWarehouse={handleEditWarehouse}
       />

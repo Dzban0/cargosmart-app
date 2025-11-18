@@ -25,8 +25,21 @@ const api = {
     return res.json();
   },
 
-  getProducts: async () => {
-    const res = await fetch(`${API_URL}/products`, {
+  updateWarehouse: async (id, warehouse) => {
+    const res = await fetch(`${API_URL}/warehouses/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        ...getAuthHeader(),
+      },
+      body: JSON.stringify(warehouse),
+    });
+    return res.json();
+  },
+
+  deleteWarehouse: async (id) => {
+    const res = await fetch(`${API_URL}/warehouses/${id}`, {
+      method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         ...getAuthHeader(),
@@ -35,17 +48,6 @@ const api = {
     return res.json();
   },
 
-  addProduct: async (product) => {
-    const res = await fetch(`${API_URL}/products`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeader(),
-      },
-      body: JSON.stringify(product),
-    });
-    return res.json();
-  },
 };
 
 export default api;

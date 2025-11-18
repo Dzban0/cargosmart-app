@@ -36,7 +36,8 @@
 }
 
 .warehouse-form button:hover {
-  background-color: #45a049;
+  background-color: #fff;
+  color: #4CAF50;
 }
 
 .warehouse-form button[type="button"] {
@@ -44,7 +45,8 @@
 }
 
 .warehouse-form button[type="button"]:hover {
-  background-color: #d32f2f;
+  background-color: #fff;
+  color: #f44336;
 }
 
 .warehouse-form .cancel-edit {

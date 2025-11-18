@@ -15,6 +15,8 @@ const HomePage = ({ warehouses, deliveries, products, setWarehouses, setDeliveri
   const [warehouseToEdit, setWarehouseToEdit] = useState(null);
   const [productDetails, setProductDetails] = useState(null);
   
+  const [showWarehouseForm, setShowWarehouseForm] = useState(false);
+
   const fetchWarehouses = async () => {
     try {
       const data = await api.getWarehouses();
@@ -27,6 +29,7 @@ const HomePage = ({ warehouses, deliveries, products, setWarehouses, setDeliveri
   const handleWarehouseAdded = async () => {
     await fetchWarehouses();
     setWarehouseToEdit(null);
+    setShowWarehouseForm(false);
   };
 
   const handleWarehouseDeleted = async () => {
@@ -51,16 +54,37 @@ const HomePage = ({ warehouses, deliveries, products, setWarehouses, setDeliveri
       {/* Sekcja magazynów */}
       <section>
         <h2 className="title">Magazyny</h2>
-        <WarehouseForm
-          onWarehouseAdded={handleWarehouseAdded}
-          warehouseToEdit={warehouseToEdit}
-          onCancelEdit={() => setWarehouseToEdit(null)}
-        />
+
+        {!showWarehouseForm && (
+          <div className="button-container">
+            <button className="add-warehouse-btn" onClick={() => setShowWarehouseForm(true)}>
+              Dodaj nowy magazyn
+            </button>
+          </div>
+        )}
+
+        {showWarehouseForm && (
+          <WarehouseForm
+            onWarehouseAdded={async () => {
+              await handleWarehouseAdded();
+              setShowWarehouseForm(false);
+            }}
+            warehouseToEdit={warehouseToEdit}
+            onCancelEdit={() => {
+              setWarehouseToEdit(null);
+              setShowWarehouseForm(false);
+            }}
+          />
+        )}
+
         <WarehouseList
           warehouses={warehouses}
           onSelectWarehouse={handleSelectWarehouse}
           onWarehouseDeleted={handleWarehouseDeleted}
-          onEditWarehouse={setWarehouseToEdit}
+          onEditWarehouse={(warehouse) => {
+            setWarehouseToEdit(warehouse);
+            setShowWarehouseForm(true);
+          }}
         />
       </section>
 
@@ -86,42 +110,42 @@ const HomePage = ({ warehouses, deliveries, products, setWarehouses, setDeliveri
 
       {/* Sekcja produktów */}
       {selectedDelivery && (
-  <section>
-    <h2 className="text-xl font-semibold mb-2">
-      Produkty w dostawie: {selectedDelivery.name}
-    </h2>
+      <section>
+        <h2 className="text-xl font-semibold mb-2">
+          Produkty w dostawie: {selectedDelivery.name}
+        </h2>
 
-    <ProductForm
-      deliveryId={selectedDelivery.id}
-      onProductAdded={() => {
-        const allProducts = JSON.parse(localStorage.getItem("products") || "[]");
-        const filtered = allProducts.filter(
-          (p) => p.deliveryId === selectedDelivery.id
-        );
-        setProducts(filtered);
-      }}
-    />
+        <ProductForm
+          deliveryId={selectedDelivery.id}
+          onProductAdded={() => {
+            const allProducts = JSON.parse(localStorage.getItem("products") || "[]");
+            const filtered = allProducts.filter(
+              (p) => p.deliveryId === selectedDelivery.id
+            );
+            setProducts(filtered);
+          }}
+        />
 
-    <KanbanBoard
-      deliveryId={selectedDelivery.id}
-      products={products}
-      onDeleteProduct={(id) => {
-        const updated = products.filter((p) => p.id !== id);
-        localStorage.setItem("products", JSON.stringify(updated));
-        setProducts(updated);
-      }}
-      onShowDetails={setProductDetails}
-    />
+        <KanbanBoard
+          deliveryId={selectedDelivery.id}
+          products={products}
+          onDeleteProduct={(id) => {
+            const updated = products.filter((p) => p.id !== id);
+            localStorage.setItem("products", JSON.stringify(updated));
+            setProducts(updated);
+          }}
+          onShowDetails={setProductDetails}
+        />
 
-    {/*  Szczegóły produktu */}
-    {productDetails && (
-      <ProductDetails
-        product={productDetails}
-        onClose={() => setProductDetails(null)}
-      />
-    )}
-  </section>
-)}
+        {/*  Szczegóły produktu */}
+        {productDetails && (
+          <ProductDetails
+            product={productDetails}
+            onClose={() => setProductDetails(null)}
+          />
+        )}
+      </section>
+      )}
     </div>
   );
 };

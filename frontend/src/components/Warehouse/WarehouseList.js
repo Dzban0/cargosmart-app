@@ -8,9 +8,9 @@ const WarehouseList = ({
   onWarehouseDeleted,
   onEditWarehouse
 }) => {
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     if (window.confirm("Czy na pewno chcesz usunąć ten magazyn?")) {
-      api.deleteWarehouse(id);
+      await api.deleteWarehouse(id);
       onWarehouseDeleted();
     }
   };
@@ -28,14 +28,13 @@ const WarehouseList = ({
       <h2>Lista magazynów</h2>
       <ul>
         {warehouses.map((warehouse) => (
-          <li
-            key={warehouse.id}
-            className="warehouse-item"
-          >
+          <li key={warehouse.id} className="warehouse-item">
+
             <div onClick={() => onSelectWarehouse(warehouse)}>
               <p className="warehouse-name">{warehouse.name}</p>
-              <p className="warehouse-location">{warehouse.location}</p>
+              <p className="warehouse-location">{warehouse.place}</p>
             </div>
+
             <div className="action-buttons">
               <button onClick={() => onEditWarehouse(warehouse)} className="text-blue-500 hover:text-blue-700">
                 Edytuj
@@ -44,6 +43,7 @@ const WarehouseList = ({
                 Usuń
               </button>
             </div>
+
           </li>
         ))}
       </ul>

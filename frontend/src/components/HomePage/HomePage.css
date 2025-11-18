@@ -1,10 +1,38 @@
+body {
+
+   
+  margin: 0; 
+}
+
 .title {
-  background-color: #fff;
   font-size: 1.25rem;
-  color: #000000;
   text-align: center;
-  padding: 1rem;
-  border-radius: 1px;
+  padding: 5px 10px; 
+  border-radius: 0; 
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+
+.add-warehouse-btn {
+  background-color: #070181;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.add-warehouse-btn:hover {
+  background-color: #fff;
+  color: #070181;
 }
 
 .note {
@@ -27,7 +55,7 @@
 }
 .note button {
   margin: 2px;
-  background-color: rgb(129, 70, 240);
+  background-color: #070181;
   color: #fff;
   border: 0;
   border-radius: 4px;
@@ -35,7 +63,8 @@
   cursor: pointer;
 }
 .note button:hover {
-  background-color: rgb(129, 70, 200);
+  background-color: #fff;
+  color: #070181;
 }
 .note button.delete {
   background-color: rgb(238, 67, 55);
