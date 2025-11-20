@@ -1,9 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
-router.use("/warehouses", require("../db/models/warehouses"));
-router.use("/shipments", require("../db/models/shipments"));
-router.use("/products", require("../db/models/products"));
-router.use("/orders", require("../db/models/orders"));
+const warehouseActions = require("../actions/api/warehouseActions");
+// const userActions = require("..../actions/api/userActions");
+const shipmentActions = require("../actions/api/shipmentActions");
+const productActions = require("../actions/api/productActions");
+const orderActions = require("../actions/api/orderActions");
+
+
+router.get("/warehouses", warehouseActions.getAllWarehouses);
+router.get("/warehouses/:id", warehouseActions.getWarehouse);
+router.post('/warehouses', warehouseActions.saveWarehouse)
+router.put('/warehouses/:id', warehouseActions.updateWarehouse)
+router.delete('/warehouses/:id', warehouseActions.deleteWarehouse)
+// router.get("/shipments", shipmentActions);
+// router.get("/products", productActions);
+// router.get("/orders", orderActions);
 
 module.exports = router;

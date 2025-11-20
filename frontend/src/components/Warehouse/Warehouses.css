@@ -1,0 +1,155 @@
+.warehouses-container {
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.warehouse-form {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.warehouse-form h2 {
+  margin-bottom: 16px;
+  color: #333333;
+}
+
+.input-field {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: border 0.2s;
+}
+
+.input-field:focus {
+  border-color: #0110ba;
+  outline: none;
+}
+
+.warehouse-form .buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.add{
+  background-color: #000000;
+  color: #ffffff;
+}
+
+.add:hover{
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.warehouse-form .submit {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.warehouse-form .submit:hover{
+  background-color: #2563eb;
+}
+
+.warehouse-form .cancel {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.warehouse-form .cancel:hover {
+  background-color: #d1d5db;
+}
+
+/* Lista magazynów */
+.warehouse-list {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.warehouse-list h2 {
+  margin-bottom: 16px;
+  color: #111827;
+}
+
+.warehouse-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.warehouse-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.warehouse-item:hover {
+  background-color: #f9fafb;
+  cursor: pointer;
+}
+
+.warehouse-name {
+  font-weight: bold;
+  color: #111827;
+}
+
+.warehouse-location {
+  color: #000000;
+  font-size: 14px;
+  margin-top: 2px;
+}
+
+.action-buttons button {
+  margin-left: 8px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+}
+
+.action-buttons .contents {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.action-buttons .contents:hover {
+  background-color: #ffffff;
+  color: #2563eb;
+}
+
+.action-buttons .edit, .warehouse-form .submit {
+  background-color: #00ff1e;
+  color: #ffffff;
+}
+
+.action-buttons .edit:hover, .warehouse-form .submit:hover {
+  background-color: #ffffff;
+  color: #00ff1e;
+}
+
+.action-buttons .delete, .warehouse-form .cancel{
+  background-color: #ef4444;
+  color: #ffffff;
+}
+
+.action-buttons .delete:hover, .warehouse-form .cancel:hover {
+  background-color: #ffffff;
+  color: #ef4444;
+}

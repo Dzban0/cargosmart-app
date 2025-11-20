@@ -10,16 +10,16 @@ const FAQ = () => {
 
   const faqs = [
     {
-      question: "",
-      answer: ""
+      question: "FAQ1",
+      answer: "Opis 1"
     },
     {
-      question: "",
-      answer: ""
+      question: "FAQ 2",
+      answer: "Opis 2"
     },
     {
-      question: "",
-      answer: ""
+      question: "FAQ 3",
+      answer: "Opis 3"
     }
   ];
 

@@ -10,16 +10,14 @@ function App() {
     if (localStorage.getItem("token")) setIsLogged(true);
   }, []);
 
-  // if (!isLogged) {
-  //   return <Login onLoginSuccess={() => setIsLogged(true)} />;
-  // }
+  if (!isLogged) {
+    return <Login onLoginSuccess={() => setIsLogged(true)} />;
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-800 dark:text-white">
-      <div className="container mx-auto p-4">
+      <div className="App">
         <HomePage />
       </div>
-    </div>
   );
 }
 

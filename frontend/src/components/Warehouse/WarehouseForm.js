@@ -15,7 +15,7 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
       setName("");
       setAddress("");
       setPlace("");
-    }
+    } 
   }, [warehouseToEdit]);
 
   const handleSubmit = async (e) => {
@@ -24,18 +24,17 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
 
     try {
       if (warehouseToEdit) {
-        const updated = await api.updateWarehouse(warehouseToEdit.id, warehouseData);
-        onWarehouseAdded(updated);
+        await api.updateWarehouse(warehouseToEdit.id, warehouseData);
       } else {
-        const saved = await api.addWarehouse(warehouseData);
-        onWarehouseAdded(saved);
+        await api.addWarehouse(warehouseData);
       }
 
-      // Reset
+      onWarehouseAdded(); // odśwież listę w Warehouses
+
+      // reset formularza
       setName("");
       setAddress("");
       setPlace("");
-
     } catch (error) {
       console.error("Błąd przy zapisie magazynu:", error);
     }
@@ -50,7 +49,7 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
 
       <input
         type="text"
-        placeholder="Nazwa magazynu"
+        placeholder="Numer magazynu"
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
@@ -76,15 +75,13 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
       />
 
       <div className="buttons flex justify-between">
-
-        <button type="submit" className="submit-btn bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+        <button className="submit">
           {warehouseToEdit ? "Zapisz zmiany" : "Dodaj magazyn"}
         </button>
 
-        <button type="button" onClick={onCancelEdit} className="cancel-btn text-gray-500 hover:text-gray-700">
+        <button onClick={onCancelEdit} className="cancel">
           Anuluj
         </button>
-
       </div>
     </form>
   );

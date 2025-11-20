@@ -1,5 +1,5 @@
-const Shipment = require('../db/models/Shipment');
-const Order = require('../db/models/Order');
+const Shipment = require('../../db/models/shipments');
+const Order = require('../../db/models/orders');
 
 exports.getAllShipments = async (req, res) => {
   try {

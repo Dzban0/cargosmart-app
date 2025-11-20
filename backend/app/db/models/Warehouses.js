@@ -6,4 +6,6 @@ const warehouseSchema = new mongoose.Schema({
   place: { type: String, required: true }
 }, { timestamps: true });
 
-module.exports = mongoose.model("Warehouse", warehouseSchema);
+const Warehouse = mongoose.model("Warehouse", warehouseSchema);
+
+module.exports = Warehouse;

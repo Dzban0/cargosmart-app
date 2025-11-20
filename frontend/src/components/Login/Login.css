@@ -45,13 +45,13 @@
 }
 
 .login-box input:focus {
-    border-color: #3b82f6;
+    border-color: #070181;
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3); 
     outline: none;
 }
 
 .login-box button[type="submit"] {
-    background-color: #3b82f6;
+    background-color: #070181;
     border: none;
     padding: 10px;
     width: 100%;

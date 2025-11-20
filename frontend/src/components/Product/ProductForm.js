@@ -14,7 +14,7 @@ const ProductForm = ({ deliveryId, onProductAdded }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
+    <form onSubmit={handleSubmit}>
       <input
         className="border p-2 w-full"
         placeholder="Nazwa produktu"
@@ -22,7 +22,7 @@ const ProductForm = ({ deliveryId, onProductAdded }) => {
         onChange={(e) => setName(e.target.value)}
         required
       />
-      <button type="submit" className="bg-purple-500 text-white px-3 py-1 rounded mt-2">Dodaj produkt</button>
+      <button type="submit">Dodaj produkt</button>
     </form>
   );
 };

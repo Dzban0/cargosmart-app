@@ -1,153 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from "react";
 import './HomePage.css';
-import WarehouseForm from "../Warehouse/WarehouseForm";
-import WarehouseList from "../Warehouse/WarehouseList";
-import DeliveryForm from "../Delivery/DeliveryForm";
-import DeliveryList from "../Delivery/DeliveryList";
-import ProductDetails from "../Product/ProductDetails";
-import ProductForm from "../Product/ProductForm";
-import { KanbanBoard } from "../KanbanBoard";
-import api from "../../services/api";
+import Warehouses from '../Warehouse/Warehouses';
+import FAQ from "../FAQ/FAQ";
 
-const HomePage = ({ warehouses, deliveries, products, setWarehouses, setDeliveries, setProducts }) => {
-  const [selectedWarehouse, setSelectedWarehouse] = useState(null);
-  const [selectedDelivery, setSelectedDelivery] = useState(null);
-  const [warehouseToEdit, setWarehouseToEdit] = useState(null);
-  const [productDetails, setProductDetails] = useState(null);
-  
-  const [showWarehouseForm, setShowWarehouseForm] = useState(false);
+function HomePage() {
 
-  const fetchWarehouses = async () => {
-    try {
-      const data = await api.getWarehouses();
-      setWarehouses(data);
-    } catch (error) {
-      console.error("Błąd podczas pobierania magazynów:", error);
-    }
-  };
-
-  const handleWarehouseAdded = async () => {
-    await fetchWarehouses();
-    setWarehouseToEdit(null);
-    setShowWarehouseForm(false);
-  };
-
-  const handleWarehouseDeleted = async () => {
-    await fetchWarehouses();
-  };
-
-  const handleSelectWarehouse = (warehouse) => {
-    setSelectedWarehouse(warehouse);
-    setSelectedDelivery(null);
-  };
-
-  const handleSelectDelivery = (delivery) => {
-    setSelectedDelivery(delivery);
-  };
-
-  useEffect(() => {
-    fetchWarehouses();
-  }, []);
+  const [activeTab, setActiveTab] = useState("magazyn");
 
   return (
-    <div className="home-page container mx-auto p-4 space-y-8">
-      {/* Sekcja magazynów */}
-      <section>
-        <h2 className="title">Magazyny</h2>
+    <div className="HomePage">
+      <h2 className="title">CargoSmart - Zarządzanie magazynowaniem i transportem</h2>
 
-        {!showWarehouseForm && (
-          <div className="button-container">
-            <button className="add-warehouse-btn" onClick={() => setShowWarehouseForm(true)}>
-              Dodaj nowy magazyn
-            </button>
-          </div>
-        )}
+      {/* Menu zakładek */}
+      <div className="tabs">
+        <button className={activeTab === "dashboard" ? "active" : ""} onClick={() => setActiveTab("dashboard")}>
+          Dashboard
+        </button>
 
-        {showWarehouseForm && (
-          <WarehouseForm
-            onWarehouseAdded={async () => {
-              await handleWarehouseAdded();
-              setShowWarehouseForm(false);
-            }}
-            warehouseToEdit={warehouseToEdit}
-            onCancelEdit={() => {
-              setWarehouseToEdit(null);
-              setShowWarehouseForm(false);
-            }}
-          />
-        )}
+        <button className={activeTab === "magazyn" ? "active" : ""} onClick={() => setActiveTab("magazyn")}>
+          Magazyn
+        </button>
 
-        <WarehouseList
-          warehouses={warehouses}
-          onSelectWarehouse={handleSelectWarehouse}
-          onWarehouseDeleted={handleWarehouseDeleted}
-          onEditWarehouse={(warehouse) => {
-            setWarehouseToEdit(warehouse);
-            setShowWarehouseForm(true);
-          }}
-        />
-      </section>
+        <button className={activeTab === "transport" ? "active" : ""} onClick={() => setActiveTab("transport")}>
+          Transport
+        </button>
 
-      {/* Sekcja dostaw */}
-      {selectedWarehouse && (
-        <section>
-          <h2 className="text-xl font-semibold mb-2">
-            Dostawy dla: {selectedWarehouse.name}
-          </h2>
-          <DeliveryForm
-            warehouseId={selectedWarehouse.id}
-            onDeliveryAdded={async () => {
-              const data = await api.getDeliveries();
-              setDeliveries(data);
-            }}
-          />
-          <DeliveryList
-            warehouseId={selectedWarehouse.id}
-            onSelectDelivery={handleSelectDelivery}
-          />
-        </section>
-      )}
+        <button className={activeTab === "faq" ? "active" : ""} onClick={() => setActiveTab("faq")}>
+          FAQ
+        </button>
+      </div>
 
-      {/* Sekcja produktów */}
-      {selectedDelivery && (
-      <section>
-        <h2 className="text-xl font-semibold mb-2">
-          Produkty w dostawie: {selectedDelivery.name}
-        </h2>
-
-        <ProductForm
-          deliveryId={selectedDelivery.id}
-          onProductAdded={() => {
-            const allProducts = JSON.parse(localStorage.getItem("products") || "[]");
-            const filtered = allProducts.filter(
-              (p) => p.deliveryId === selectedDelivery.id
-            );
-            setProducts(filtered);
-          }}
-        />
-
-        <KanbanBoard
-          deliveryId={selectedDelivery.id}
-          products={products}
-          onDeleteProduct={(id) => {
-            const updated = products.filter((p) => p.id !== id);
-            localStorage.setItem("products", JSON.stringify(updated));
-            setProducts(updated);
-          }}
-          onShowDetails={setProductDetails}
-        />
-
-        {/*  Szczegóły produktu */}
-        {productDetails && (
-          <ProductDetails
-            product={productDetails}
-            onClose={() => setProductDetails(null)}
-          />
-        )}
-      </section>
-      )}
+      <div className="tab-content">
+        {activeTab === "dashboard" && <div className="dashboard-text">Witaj w panelu głównym!</div>}
+        {activeTab === "magazyn" && <Warehouses />}
+        {activeTab === "transport"}
+        {activeTab === "faq" && <FAQ />}
+      </div>
     </div>
   );
-};
+}
 
 export default HomePage;
