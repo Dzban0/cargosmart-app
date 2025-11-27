@@ -1,0 +1,172 @@
+.products-container {
+  background: #ffffff;
+  max-width: 750px;
+  margin: 2rem auto;
+  padding: 2rem;
+
+  border-radius: 12px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e7e7e7;
+
+  font-family: Arial, sans-serif;
+}
+
+.products-container h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  color: #333;
+  font-weight: 700;
+}
+
+.products-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.2rem 0;
+}
+
+.product-item {
+  display: flex;
+  flex-direction: column; /* USTAWIA WSZYSTKO JEDEN POD DRUGIM */
+  align-items: flex-start;
+
+  background: #f8f9fa;
+  padding: 1rem;
+  margin-bottom: 0.7rem;
+  border-radius: 8px;
+
+  border: 1px solid #e2e2e2;
+  transition: 0.2s ease-in-out;
+}
+
+.product-item:hover {
+  background: #eef2f7;
+}
+
+.product-name {
+  cursor: pointer;
+  font-weight: 600;
+  color: #222;
+  flex: 1;
+  margin-right: 1rem;
+  line-height: 1.4;
+}
+
+.products-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  background: #f5f7fa;
+  padding: 1.4rem;
+  margin-bottom: 1.2rem;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+}
+
+.products-form input,
+.products-form select,
+.products-form textarea {
+  padding: 0.55rem 0.65rem;
+  border: 1px solid #c8c8c8;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.products-form textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.products-form input:focus,
+.products-form select:focus,
+.products-form textarea:focus {
+  border-color: #4b7cff;
+  outline: none;
+}
+
+.product-actions {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: flex-end;
+}
+
+.product-actions button {
+  padding: 0.45rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  font-size: 0.95rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.product-actions .submit {
+  background-color: #28c628;
+  color: #ffffff;
+}
+
+.product-actions .submit:hover {
+  background-color: #ffffff;
+  color: #28c628;
+  border: 1px solid #28c628;
+}
+
+
+.product-actions .cancel {
+  background-color: #ff3b3b;
+  color: #ffffff;
+}
+
+.product-actions .cancel:hover {
+  background-color: #ffffff;
+  color: #ff3b3b;
+  border: 1px solid #ff3b3b;
+}
+
+.product-actions .contents {
+  background-color: #0051ff;
+  color: #ffffff;
+}
+
+.product-actions .contents:hover {
+  background-color: #ffffff;
+  color: #0051ff;
+  border: 1px solid #0051ff;
+}
+
+.product-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: left;
+}
+
+.product-details {
+  margin-top: 10px;
+  width: 100%; 
+}
+
+.product-details p {
+  color: #000000 !important;
+}
+
+.product-item .details {
+  background-color: #0051ff;
+  color: #ffffff;
+  border: none;
+  padding: 0.35rem 0.7rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: 0.2s;
+  margin-left: 0.3rem;
+}
+
+.product-item .details:hover {
+  background-color: #ffffff;
+  color: #0051ff;
+  border: 1px solid #0051ff;
+}

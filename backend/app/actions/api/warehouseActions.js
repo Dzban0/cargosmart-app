@@ -1,4 +1,4 @@
-const Warehouse = require("../../db/models/warehouses");
+const Warehouse = require("../../db/models/Warehouses");
 
 class WarehouseActions{
 

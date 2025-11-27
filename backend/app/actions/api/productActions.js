@@ -1,21 +1,45 @@
-const Product = require('../../db/models/products');
+const Product = require("../../db/models/Products");
 
-exports.getAllProducts = async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (err) {
-    res.status(500).json({ error: 'Błąd podczas pobierania produktów' });
-  }
-};
+class ProductActions {
 
-exports.createProduct = async (req, res) => {
-  try {
-    const { name, quantity, price } = req.body;
-    const newProduct = new Product({ name, quantity, price });
-    await newProduct.save();
-    res.status(201).json(newProduct);
-  } catch (err) {
-    res.status(400).json({ error: 'Błąd podczas tworzenia produktu' });
+  async saveProduct(req, res) {
+    const { name, sku, quantity } = req.body;
+
+    try {
+      const product = new Product({ name, sku, quantity });
+      await product.save();
+      res.status(201).json(product);
+    } catch (err) {
+      res.status(422).json({ message: err.message });
+    }
   }
-};
+
+  async getAllProducts(req, res) {
+    const products = await Product.find({});
+    res.status(200).json(products);
+  }
+
+  async getProduct(req, res) {
+    const product = await Product.findById(req.params.id);
+    res.status(200).json(product);
+  }
+
+  async updateProduct(req, res) {
+    const { name, sku, quantity } = req.body;
+    const product = await Product.findById(req.params.id);
+
+    product.name = name;
+    product.sku = sku;
+    product.quantity = quantity;
+
+    await product.save();
+    res.status(201).json(product);
+  }
+
+  async deleteProduct(req, res) {
+    await Product.deleteOne({ _id: req.params.id });
+    res.sendStatus(204);
+  }
+}
+
+module.exports = new ProductActions();

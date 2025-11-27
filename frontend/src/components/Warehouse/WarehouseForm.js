@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../../services/api";
+import WarehouseService from "../../services/WarehouseService";
 
 const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
   const [name, setName] = useState("");
@@ -24,14 +24,13 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
 
     try {
       if (warehouseToEdit) {
-        await api.updateWarehouse(warehouseToEdit.id, warehouseData);
+        await WarehouseService.updateWarehouse(warehouseToEdit.id, warehouseData);
       } else {
-        await api.addWarehouse(warehouseData);
+        await WarehouseService.addWarehouse(warehouseData);
       }
 
-      onWarehouseAdded(); // odśwież listę w Warehouses
+      onWarehouseAdded();
 
-      // reset formularza
       setName("");
       setAddress("");
       setPlace("");
@@ -41,9 +40,9 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="warehouse-form p-4 bg-white rounded shadow-md mb-6">
+    <form onSubmit={handleSubmit} className="warehouse-form">
 
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="edit">
         {warehouseToEdit ? "Edytuj magazyn" : "Dodaj magazyn"}
       </h2>
 
@@ -53,7 +52,6 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
         value={name}
         onChange={(e) => setName(e.target.value)}
         required
-        className="input-field mb-4 p-2 border rounded w-full"
       />
 
       <input
@@ -62,7 +60,6 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
         value={address}
         onChange={(e) => setAddress(e.target.value)}
         required
-        className="input-field mb-4 p-2 border rounded w-full"
       />
 
       <input
@@ -71,10 +68,9 @@ const WarehouseForm = ({ onWarehouseAdded, warehouseToEdit, onCancelEdit }) => {
         value={place}
         onChange={(e) => setPlace(e.target.value)}
         required
-        className="input-field mb-4 p-2 border rounded w-full"
       />
 
-      <div className="buttons flex justify-between">
+      <div className="action-buttons">
         <button className="submit">
           {warehouseToEdit ? "Zapisz zmiany" : "Dodaj magazyn"}
         </button>

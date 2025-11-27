@@ -31,7 +31,6 @@ exports.createOrder = async (req, res) => {
   }
 };
 
-// Akcja do aktualizacji statusu zamówienia
 exports.updateOrderStatus = async (req, res) => {
   const { orderId, status } = req.body;
 
@@ -41,7 +40,6 @@ exports.updateOrderStatus = async (req, res) => {
       return res.status(404).json({ error: 'Zamówienie nie znaleziono' });
     }
 
-    // Aktualizacja statusu zamówienia
     order.status = status;
     await order.save();
     res.json(order);

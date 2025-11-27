@@ -1,21 +1,19 @@
 const mongoose = require('mongoose');
 
 const shipmentSchema = new mongoose.Schema({
-  order: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: 'Order', 
-    required: true, 
-  },
-  trackingNumber: { 
-    type: String, 
-    required: true, 
-  },
-  shipmentDate: { 
-    type: Date, 
-    required: true, 
-  },
-  deliveryDate: { 
-    type: Date 
+  order: { type: mongoose.Schema.Types.ObjectId, ref: 'Order', required: true },
+
+  delivery: { type: mongoose.Schema.Types.ObjectId, ref: 'Delivery' },
+
+  trackingNumber: { type: String, required: true },
+
+  shipmentDate: Date,
+  deliveryDate: Date,
+
+  status: {
+    type: String,
+    enum: ["Ready", "InTransit", "Delivered"],
+    default: "Ready"
   }
 });
 

@@ -1,18 +1,10 @@
 .title {
+  color: #ffffff;
   font-size: 1.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
   border-radius: 1px;
   padding: 10px;
-}
-
-.dashboard-text {
-  background-color: #ffffff;
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
-  border-radius: 4px;
-  padding: 20px;
 }
 
 .tabs {
@@ -25,9 +17,14 @@
   border: none;
   cursor: pointer;
   background-color: #ffffff;
+  color: #000;
+}
+
+.tabs button:hover {
+  background-color: #949494;
 }
 
 .tabs button.active {
-  background-color: #0110ba;
+  background-color: #909090;
   color: #fff;
 }

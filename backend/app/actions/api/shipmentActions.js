@@ -34,18 +34,23 @@ exports.createShipment = async (req, res) => {
 };
 
 exports.updateShipmentStatus = async (req, res) => {
-  const { shipmentId, deliveryDate } = req.body;
+  const { shipmentId, status, deliveryDate } = req.body;
 
   try {
     const shipment = await Shipment.findById(shipmentId);
-    if (!shipment) {
-      return res.status(404).json({ error: 'Wysyłka nie znaleziona' });
+
+    shipment.status = status;
+    if (deliveryDate) shipment.deliveryDate = deliveryDate;
+
+    await shipment.save();
+
+    if (status === "Delivered") {
+      await Order.findByIdAndUpdate(shipment.order, { status: "Delivered" });
     }
 
-    shipment.deliveryDate = deliveryDate;
-    await shipment.save();
     res.json(shipment);
+
   } catch (err) {
-    res.status(400).json({ error: 'Błąd podczas aktualizacji statusu wysyłki' });
+    res.status(400).json({ error: "Błąd aktualizacji wysyłki" });
   }
 };

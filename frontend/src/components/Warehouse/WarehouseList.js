@@ -1,6 +1,6 @@
 import React from "react"; 
 import './Warehouses.css'; 
-import api from "../../services/api"; 
+import api from "../../services/WarehouseService"; 
 
 const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEditWarehouse, onViewContents }) => { 
   
@@ -33,38 +33,37 @@ const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEd
   if (!warehouses || warehouses.length === 0) { 
     return ( 
       <div className="warehouse-list"> 
-        <p>Brak magazynów do wyświetlenia.</p> 
+        <h>Brak magazynów do wyświetlenia.</h> 
       </div> 
     ); 
   } 
   
   return ( 
     <div className="warehouse-list"> 
-      <h2>Lista magazynów</h2> 
       <ul> 
         {warehouses.map((warehouse) => ( 
           <li key={warehouse.id} className="warehouse-item" onClick={() => onSelectWarehouse(warehouse)}> 
           
-          <div> 
-            <p className="warehouse-name">Magazyn {warehouse.name}</p>
-            <p className="warehouse-location">{warehouse.address}, {warehouse.place}</p>
-          </div>
+            <div> 
+              <p className="warehouse-name">Magazyn {warehouse.name}</p>
+              <p className="warehouse-location">{warehouse.address}, {warehouse.place}</p>
+            </div>
           
-          <div className="action-buttons"> 
-            <button onClick={(e) => handleEdit(e, warehouse)} className="edit">
-              Edytuj
-            </button>
+            <div className="action-buttons"> 
+              <button onClick={(e) => handleEdit(e, warehouse)} className="submit">
+                Edytuj
+              </button>
             
-            <button onClick={(e) => handleViewContents(e, warehouse)} className="contents"> 
-              Zawartość 
-            </button> 
+              <button onClick={(e) => handleViewContents(e, warehouse)} className="contents"> 
+                Zawartość 
+              </button> 
             
-            <button onClick={(e) => handleDelete(e, warehouse.id)} className="delete">
-              Usuń
-            </button> 
-          </div> 
+              <button onClick={(e) => handleDelete(e, warehouse.id)} className="cancel">
+                Usuń
+              </button> 
+            </div> 
           
-        </li> 
+          </li> 
       ))} 
     </ul> 
   </div> 
