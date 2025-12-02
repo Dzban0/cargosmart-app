@@ -4,10 +4,11 @@ const productSchema = new mongoose.Schema({
   name: { type: String, required: true },
   category: { 
     type: String, 
-    enum: ["Elektronika", "Materiały budowlane", "Narzędzia", "Chemia", "Meble", "Odzież", "Spożywcze", "Napoje","Inne"], 
+    enum: ["Elektronika", "Materiały budowlane", "Narzędzia", "Chemia", "Meble", "Odzież", "Spożywcze", "Napoje", "Inne"], 
     required: true 
   },
   quantity: { type: Number, default: 0 },
+  packaging: { type: String},
   description: { type: String }
 }, { timestamps: true });
 

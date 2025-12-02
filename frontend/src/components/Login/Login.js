@@ -46,21 +46,19 @@ export const Login = ({ onLoginSuccess }) => {
           required
         />
 
-        <button type="submit">
+        <button className="submit">
           {isRegistering ? "Zarejestruj się" : "Zaloguj się"}
         </button>
 
         <p className="switch-text">
           {isRegistering ? "Masz już konto? " : "Nie masz konta? "}
-          <button
-            type="button"
-            onClick={() => setIsRegistering(!isRegistering)}
-            className="switch-button"
-          >
+          <button onClick={() => setIsRegistering(!isRegistering)} className="switch-button">
             {isRegistering ? "Zaloguj się" : "Zarejestruj się"}
           </button>
         </p>
       </form>
     </div>
   );
-};
+}
+
+export default Login;

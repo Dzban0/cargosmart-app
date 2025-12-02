@@ -3,20 +3,27 @@ const Vehicle = require("../../db/models/Vehicles");
 class VehicleActions {
 
   async saveVehicle(req, res) {
-    const { name, registration, capacity } = req.body;
+    const name = req.body.name;
+    const type = req.body.name;
+    const registration = req.body.name;
+    const capacity = req.body.name;
+    const weight = req.body.name;
+
+    let vehicle;
 
     try {
-      const vehicle = new Vehicle({ name, registration, capacity });
+      vehicle = new Vehicle({ name, type, registration, capacity, weight });
       await vehicle.save();
-      res.status(201).json(vehicle);
     } catch (err) {
       res.status(422).json({ message: err.message });
     }
+
+    res.status(201).json(vehicle);
   }
 
   async getAllVehicles(req, res) {
-    const vehicles = await Vehicle.find({});
-    res.status(200).json(vehicles);
+    const doc = await Vehicle.find({});
+    res.status(200).json(doc);
   }
 
   async getVehicle(req, res) {
@@ -25,19 +32,28 @@ class VehicleActions {
   }
 
   async updateVehicle(req, res) {
-    const { name, registration, capacity } = req.body;
-    const vehicle = await Vehicle.findById(req.params.id);
+    const id = req.params.id;
+    const name = req.body.name;
+    const type = req.body.name;
+    const registration = req.body.name;
+    const capacity = req.body.name;
+    const weight = req.body.name;
 
+    const vehicle = await Worker.findOne({ _id: id });
     vehicle.name = name;
+    vehicle.type = type;
     vehicle.registration = registration;
     vehicle.capacity = capacity;
+    vehicle.weight = weight;
 
     await vehicle.save();
     res.status(201).json(vehicle);
   }
 
   async deleteVehicle(req, res) {
+    const id = req.params.id;
     await Vehicle.deleteOne({ _id: req.params.id });
+    
     res.sendStatus(204);
   }
 }

@@ -13,7 +13,14 @@ function HomePage() {
   return (
     <div className="HomePage">
 
-      <h2 className="title">CargoSmart - Zarządzanie magazynowaniem i transportem</h2>
+      <div className="top-bar">
+        <h2 className="title">CargoSmart - Zarządzanie magazynowaniem i transportem</h2>
+
+        <div className="top-buttons">
+          <button className="settings-btn">Ustawienia</button>
+          <button className="logout-btn">Wyloguj</button>
+        </div>
+      </div>
 
       <div className="tabs">
         <button className={activeTab === "dashboard" ? "active" : ""} onClick={() => setActiveTab("dashboard")}>
@@ -28,8 +35,8 @@ function HomePage() {
           Transport
         </button>
 
-        <button className={activeTab === "mapa" ? "active" : ""} onClick={() => setActiveTab("mapa")}>
-          Mapa
+        <button className={activeTab === "dokument" ? "active" : ""} onClick={() => setActiveTab("dokument")}>
+          Dokumenty
         </button>
 
 
@@ -47,7 +54,7 @@ function HomePage() {
 
         {activeTab === "transport" && <Transport />}
 
-
+        {activeTab === "dokument" && <Document />}
       </div>
     </div>
   );
