@@ -1,5 +1,9 @@
+<<<<<<< Updated upstream
 import { apiRequest } from './api';
 const API_URL = "http://localhost:5000";
+=======
+const API_URL = "http://localhost:3001/api";
+>>>>>>> Stashed changes
 
 export const login = async (login, password) => {
   const res = await fetch(`${API_URL}/login`, {
