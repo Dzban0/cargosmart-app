@@ -1,51 +1,73 @@
-import React from "react";
-import { api } from "../../services/api";
+import React from "react"; 
+import './Warehouses.css'; 
+import api from "../../services/WarehouseService"; 
 
-export const WarehouseList = ({
-  warehouses,
-  onSelectWarehouse,
-  onWarehouseDeleted,
-  onEditWarehouse
-}) => {
-  const handleDelete = (id) => {
-    if (window.confirm("Czy na pewno chcesz usunąć ten magazyn?")) {
-      api.deleteWarehouse(id);
-      onWarehouseDeleted();
-    }
+const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEditWarehouse, onViewContents }) => { 
+  
+  const handleViewContents = (e, warehouse) => { 
+    e.stopPropagation(); 
+    if (onViewContents) { 
+      onViewContents(warehouse); 
+    } 
+  }; 
+  
+  const handleEdit = (e, warehouse) => {
+    e.stopPropagation(); 
+    if (onEditWarehouse) {
+      onEditWarehouse(warehouse); 
+    } 
   };
 
-  if (!warehouses || warehouses.length === 0) {
-    return (
-      <div className="bg-white dark:bg-gray-700 p-4 rounded shadow">
-        <p className="text-gray-500 text-sm">Brak magazynów do wyświetlenia.</p>
-      </div>
-    );
-  }
+  const handleDelete = async (e, id) => { e.stopPropagation(); 
+    e.stopPropagation();
+    if (window.confirm("Czy na pewno chcesz usunąć ten magazyn?")) { 
+      try {
+        await api.deleteWarehouse(id); 
+        onWarehouseDeleted(); 
+      } catch (error) {
+        console.error("Błąd przy usuwaniu magazynu:", error); 
+      } 
+    } 
+  }; 
 
-  return (
-    <div className="bg-white dark:bg-gray-700 p-4 rounded shadow">
-      <h2 className="text-lg font-semibold mb-2">Lista magazynów</h2>
-      <ul className="divide-y divide-gray-200 dark:divide-gray-600">
-        {warehouses.map((warehouse) => (
-          <li
-            key={warehouse.id}
-            className="flex justify-between items-center py-2 hover:bg-gray-100 dark:hover:bg-gray-600 px-2 rounded cursor-pointer"
-          >
-            <div onClick={() => onSelectWarehouse(warehouse)}>
-              <p className="font-medium">{warehouse.name}</p>
-              <p className="text-sm text-gray-500">{warehouse.location}</p>
+  if (!warehouses || warehouses.length === 0) { 
+    return ( 
+      <div className="warehouse-list"> 
+        <h>Brak magazynów do wyświetlenia.</h> 
+      </div> 
+    ); 
+  } 
+  
+  return ( 
+    <div className="warehouse-list"> 
+      <ul> 
+        {warehouses.map((warehouse) => ( 
+          <li key={warehouse.id} className="warehouse-item" onClick={() => onSelectWarehouse(warehouse)}> 
+          
+            <div> 
+              <p className="warehouse-name">Magazyn {warehouse.name}</p>
+              <p className="warehouse-location">{warehouse.address}, {warehouse.place}</p>
             </div>
-            <div className="flex gap-2">
-              <button onClick={() => onEditWarehouse(warehouse)} className="text-blue-500 hover:text-blue-700">
+          
+            <div className="action-buttons"> 
+              <button onClick={(e) => handleEdit(e, warehouse)} className="submit">
                 Edytuj
               </button>
-              <button onClick={() => handleDelete(warehouse.id)} className="text-red-500 hover:text-red-700">
+            
+              <button onClick={(e) => handleViewContents(e, warehouse)} className="contents"> 
+                Zawartość 
+              </button> 
+            
+              <button onClick={(e) => handleDelete(e, warehouse.id)} className="cancel">
                 Usuń
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
+              </button> 
+            </div> 
+          
+          </li> 
+      ))} 
+    </ul> 
+  </div> 
+  ); 
+}; 
+
+export default WarehouseList;

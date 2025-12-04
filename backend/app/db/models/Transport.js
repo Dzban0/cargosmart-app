@@ -4,8 +4,8 @@ const transportSchema = new mongoose.Schema({
   type: { type: String, required: true },
   pickup: { type: String, required: true },
   destination: {type: String, required: true },
-  description: { type: String, required: true },
-});
+  description: { type: String },
+}, { timestamps: true });
 
 const Transport = mongoose.model("Transport", transportSchema);
 

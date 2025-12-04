@@ -1,8 +1,20 @@
 body {
-  background-color: #001849;
+  background-color: #909090;
 }
 p {
   color: #fff;
+}
+input {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: .375rem .75rem;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: .25rem;
+  margin: 10px 0;
 }
 .App {
   text-align: center;
@@ -31,7 +43,7 @@ p {
 }
 
 .App-link {
-  color: #61dafb;
+  color: #0110ba;
 }
 
 @keyframes App-logo-spin {
@@ -41,4 +53,11 @@ p {
   to {
     transform: rotate(360deg);
   }
+}
+
+.title {
+    font-size: 1.25rem;
+    color: #000000;
+    font-weight: 600;
+    margin-bottom: 1rem;
 }
