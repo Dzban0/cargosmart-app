@@ -38,15 +38,16 @@ const WarehouseService = {
   },
 
   deleteWarehouse: async (id) => {
-    const res = await fetch(`${API_URL}/warehouses/${id}`, {
+    await fetch(`${API_URL}/warehouses/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         ...getAuthHeader(),
       },
     });
-    return res.json();
+    return true; // lub nic
   },
+
 };
 
 export default WarehouseService;
