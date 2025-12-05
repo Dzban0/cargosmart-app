@@ -55,7 +55,7 @@ const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEd
               </button>
             
               <button onClick={(e) => handleViewContents(e, warehouse)} className="contents"> 
-                Zawartość 
+                Asortyment
               </button> 
             
               <button onClick={(e) => handleDelete(e, warehouse.id)} className="cancel">
@@ -64,9 +64,9 @@ const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEd
             </div> 
           
           </li> 
-      ))} 
-    </ul> 
-  </div> 
+        ))} 
+      </ul> 
+    </div> 
   ); 
 }; 
 

@@ -45,7 +45,7 @@ const WarehouseService = {
         ...getAuthHeader(),
       },
     });
-    return true; // lub nic
+    return true; 
   },
 
 };

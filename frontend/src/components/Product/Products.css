@@ -27,7 +27,7 @@
 
 .product-item {
   display: flex;
-  flex-direction: column; /* USTAWIA WSZYSTKO JEDEN POD DRUGIM */
+  flex-direction: column; 
   align-items: flex-start;
 
   background: #f8f9fa;

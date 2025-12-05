@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import TransportService from "../../services/TransportService";
 
-const TransportForm =({ onTransportAdd, onTransportUpdate, transportEditing, vehicles, drivers, isDriverBusy, isVehicleBusy, onCancelEdit }) => {
+const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBusy, isVehicleBusy }) => {
   const [formData, setFormData] = useState({
     driver: "",
     vehicle: "",
@@ -12,12 +11,17 @@ const TransportForm =({ onTransportAdd, onTransportUpdate, transportEditing, veh
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (transportEditing) {
-      setFormData(transportEditing);
+    if (editing) {
+      setFormData(editing);
     } else {
-      setFormData("");
+      setFormData({
+        driver: "",
+        vehicle: "",
+        route: "",
+        status: "planowany",
+      });
     }
-  }, [transportEditing]);
+  }, [editing]);
 
   const transportValidate = () => {
     if (isDriverBusy(formData.driver) && formData.status !== "zakończony") {
@@ -40,8 +44,8 @@ const TransportForm =({ onTransportAdd, onTransportUpdate, transportEditing, veh
 
     setError("");
 
-    if (transportEditing) onTransportUpdate(formData);
-    else onTransportAdd(formData);
+    if (editing) onUpdate(formData);
+    else onAdd(formData);
 
     setFormData({
       driver: "",
@@ -51,53 +55,57 @@ const TransportForm =({ onTransportAdd, onTransportUpdate, transportEditing, veh
     });
   };
 
+  console.log("Filtered drivers: ", drivers.filter((d) => !isDriverBusy(d.name))); // Logowanie dostępnych kierowców
+  console.log("Filtered vehicles: ", vehicles.filter((v) => !isVehicleBusy(v.name))); // Logowanie dostępnych pojazdów
+
   return (
     <form className="transport-form" onSubmit={handleSubmit}>
-      <h3>{transportEditing ? "Edytuj transport" : "Dodaj transport"}</h3>
+      <h3>{editing ? "Edytuj transport" : "Dodaj transport"}</h3>
 
       {error && <p className="error">{error}</p>}
 
       <select
         value={formData.driver}
-        onChange={(e) =>
-          setFormData({ ...formData, driver: e.target.value })
-        }
+        onChange={(e) => setFormData({ ...formData, driver: e.target.value })}
         required
       >
         <option value="">Wybierz kierowcę</option>
-        {drivers.map((d) => (
-          <option key={d.id} value={d.name}>
-            {d.name}
-          </option>
-        ))}
+        {drivers
+          .filter((d) => !isDriverBusy(d.name)) // Filtrowanie dostępnych kierowców
+          .map((d) => (
+            <option key={d.id} value={d.name}>
+              {d.name}
+            </option>
+          ))}
       </select>
 
       <select
         value={formData.vehicle}
-        onChange={(e) =>
-          setFormData({ ...formData, vehicle: e.target.value })
-        }
+        onChange={(e) => setFormData({ ...formData, vehicle: e.target.value })}
         required
       >
         <option value="">Wybierz pojazd</option>
-        {vehicles.map((v) => (
-          <option key={v.id} value={v.name}>
-            {v.name}
-          </option>
-        ))}
+        {vehicles
+          .filter((v) => !isVehicleBusy(v.name)) // Filtrowanie dostępnych pojazdów
+          .map((v) => (
+            <option key={v.id} value={v.name}>
+              {v.name}
+            </option>
+          ))}
       </select>
 
       <input
         type="text"
         placeholder="Trasa"
         value={formData.route}
-        onChange={(e) =>
-          setFormData({ ...formData, route: e.target.value })
-        }
+        onChange={(e) => setFormData({ ...formData, route: e.target.value })}
         required
       />
 
-      <select value={formData.status} onChange={(e) => setFormData({ ...formData, status: e.target.value })}>
+      <select
+        value={formData.status}
+        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+      >
         <option value="planowany">Planowany</option>
         <option value="w trakcie">W trakcie</option>
         <option value="zakończony">Zakończony</option>
@@ -105,15 +113,11 @@ const TransportForm =({ onTransportAdd, onTransportUpdate, transportEditing, veh
 
       <div className="action-buttons">
         <button type="submit">
-          {transportEditing ? "Zapisz zmiany" : "Dodaj transport"}
-        </button>
-
-        <button onClick={onCancelEdit} className="cancel">
-          Anuluj
+          {editing ? "Zapisz zmiany" : "Dodaj transport"}
         </button>
       </div>
     </form>
   );
-}
+};
 
 export default TransportForm;

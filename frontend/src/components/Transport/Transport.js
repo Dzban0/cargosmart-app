@@ -67,7 +67,7 @@ const Transport = () => {
         <button onClick={() => setShowForm(true)} className="add">
           Dodaj zlecenie
         </button>
-      </div> 
+      </div>
 
       {showForm && (
         <TransportForm

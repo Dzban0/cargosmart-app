@@ -2,7 +2,7 @@ body {
   background-color: #909090;
 }
 p {
-  color: #fff;
+  color: #000000;
 }
 input {
   display: block;
@@ -56,8 +56,22 @@ input {
 }
 
 .title {
-    font-size: 1.25rem;
-    color: #000000;
-    font-weight: 600;
-    margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #000000;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+body.dark-mode {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
