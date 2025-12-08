@@ -3,7 +3,7 @@ import { API_URL } from "./api";
 
 const TransportService = {
   getTransports: async () => {
-    const res = await fetch(`${API_URL}/transport`, {
+    const res = await fetch(`${API_URL}/transports`, {
       headers: {
         "Content-Type": "application/json",
         ...getAuthHeader(),
@@ -13,7 +13,7 @@ const TransportService = {
   },
 
   addTransport: async (transport) => {
-    const res = await fetch(`${API_URL}/transport`, {
+    const res = await fetch(`${API_URL}/transports`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +25,7 @@ const TransportService = {
   },
 
   updateTransport: async (id, transport) => {
-    const res = await fetch(`${API_URL}/transport/${id}`, {
+    const res = await fetch(`${API_URL}/transports/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -33,19 +33,17 @@ const TransportService = {
       },
       body: JSON.stringify(transport),
     });
-    if (res.status === 204) return {};
     return res.json();
   },
 
   deleteTransport: async (id) => {
-    const res = await fetch(`${API_URL}/transport/${id}`, {
+    await fetch(`${API_URL}/transports/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
         ...getAuthHeader(),
       },
     });
-    return res.json();
   },
 
 };

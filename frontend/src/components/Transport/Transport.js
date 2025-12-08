@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import TransportList from "./TransportList";
 import TransportForm from "./TransportForm";
+import TransportService from "../../services/TransportService";
 import "./Transport.css";
+
 
 const Transport = () => {
   const [transports, setTransports] = useState([]);
@@ -36,28 +38,28 @@ const Transport = () => {
       (t) => t.vehicle === vehicleName && t.status === "w trakcie"
     );
 
-  const handleAddTransport = (data) => {
-    const newTransport = { id: Date.now(), ...data };
-    const updated = [...transports, newTransport];
-    saveTransports(updated);
+  const handleAddTransport = async (data) => {
+    const newTransport = await TransportService.addTransport(data);
+    setTransports([...transports, newTransport]);
   };
 
-  const handleDeleteTransport = (id) => {
-    const updated = transports.filter((t) => t.id !== id);
-    saveTransports(updated);
-  };
-
-  const handleEditTransport = (t) => {
+  const handleEditTransport = async (t) => {
     setEditingTransport(t);
   };
 
-  const handleUpdateTransport = (updatedData) => {
-    const updated = transports.map((t) =>
-      t.id === updatedData.id ? updatedData : t
+  const handleUpdateTransport = async (updatedData) => {
+    const updated = await TransportService.updateTransport(updatedData._id, updatedData);
+    setTransports(
+      transports.map((t) => t._id === updated._id ? updated : t)
     );
-    saveTransports(updated);
     setEditingTransport(null);
   };
+
+  const handleDeleteTransport = async (id) => {
+    await TransportService.deleteTransport(id);
+    setTransports(transports.filter((t) => t._id !== id));
+  };
+
 
   return (
     <div className="transport-container">

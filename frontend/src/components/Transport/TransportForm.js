@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 
-const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBusy, isVehicleBusy }) => {
+const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBusy, isVehicleBusy, onCancelEdit }) => {
   const [formData, setFormData] = useState({
     driver: "",
     vehicle: "",
-    route: "",
+    pickup: "",
+    destination: "",
     status: "planowany",
   });
 
@@ -17,18 +18,19 @@ const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBu
       setFormData({
         driver: "",
         vehicle: "",
-        route: "",
+        pickup: "",
+        destination: "",
         status: "planowany",
       });
     }
   }, [editing]);
 
-  const transportValidate = () => {
+  const validate = () => {
     if (isDriverBusy(formData.driver) && formData.status !== "zakończony") {
-      return "Wybrany kierowca jest już w trasie.";
+      return "Ten kierowca ma aktywny transport.";
     }
     if (isVehicleBusy(formData.vehicle) && formData.status !== "zakończony") {
-      return "Wybrany pojazd jest już w trasie.";
+      return "Ten pojazd jest już w użyciu.";
     }
     return "";
   };
@@ -36,7 +38,7 @@ const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBu
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const err = transportValidate();
+    const err = validate();
     if (err) {
       setError(err);
       return;
@@ -50,13 +52,11 @@ const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBu
     setFormData({
       driver: "",
       vehicle: "",
-      route: "",
+      pickup: "",
+      destination: "",
       status: "planowany",
     });
   };
-
-  console.log("Filtered drivers: ", drivers.filter((d) => !isDriverBusy(d.name))); // Logowanie dostępnych kierowców
-  console.log("Filtered vehicles: ", vehicles.filter((v) => !isVehicleBusy(v.name))); // Logowanie dostępnych pojazdów
 
   return (
     <form className="transport-form" onSubmit={handleSubmit}>
@@ -70,13 +70,11 @@ const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBu
         required
       >
         <option value="">Wybierz kierowcę</option>
-        {drivers
-          .filter((d) => !isDriverBusy(d.name)) // Filtrowanie dostępnych kierowców
-          .map((d) => (
-            <option key={d.id} value={d.name}>
-              {d.name}
-            </option>
-          ))}
+        {drivers.map((d) => (
+          <option key={d.id || d._id} value={d.name}>
+            {d.name}
+          </option>
+        ))}
       </select>
 
       <select
@@ -85,20 +83,28 @@ const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBu
         required
       >
         <option value="">Wybierz pojazd</option>
-        {vehicles
-          .filter((v) => !isVehicleBusy(v.name)) // Filtrowanie dostępnych pojazdów
-          .map((v) => (
-            <option key={v.id} value={v.name}>
-              {v.name}
-            </option>
-          ))}
+        {vehicles.map((v) => (
+          <option key={v.id || v._id} value={v.name}>
+            {v.name}
+          </option>
+        ))}
       </select>
 
       <input
         type="text"
-        placeholder="Trasa"
-        value={formData.route}
-        onChange={(e) => setFormData({ ...formData, route: e.target.value })}
+        placeholder="Miejsce odbioru"
+        value={formData.pickup}
+        onChange={(e) => setFormData({ ...formData, pickup: e.target.value })}
+        required
+      />
+
+      <input
+        type="text"
+        placeholder="Miejsce docelowe"
+        value={formData.destination}
+        onChange={(e) =>
+          setFormData({ ...formData, destination: e.target.value })
+        }
         required
       />
 
@@ -114,6 +120,10 @@ const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBu
       <div className="action-buttons">
         <button type="submit">
           {editing ? "Zapisz zmiany" : "Dodaj transport"}
+        </button>
+
+        <button type="button" onClick={onCancelEdit} className="cancel">
+          Anuluj
         </button>
       </div>
     </form>

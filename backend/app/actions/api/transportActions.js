@@ -30,19 +30,24 @@ class TransportActions {
   }
 
   async updateTransport(req, res) {
-    const id = req.params.id;
-    const type = req.body.pickup;
-    const pickup = req.body.pickup;
-    const destination = req.body.destination;
-    const description = req.body.description;
+    try {
+      const id = req.params.id;
 
-    transport.type = type;
-    transport.pickup = pickup;
-    transport.destination = destination;
-    transport.description = description;
+      const transport = await Transport.findById(id);
+      if (!transport) {
+        return res.status(404).json({ message: "Transport not found" });
+      }
 
-    await transport.save();
-    res.status(201).json(transport);
+      transport.type = req.body.type;
+      transport.pickup = req.body.pickup;
+      transport.destination = req.body.destination;
+      transport.description = req.body.description;
+
+      await transport.save();
+      res.status(200).json(transport);
+    } catch (err) {
+      res.status(422).json({ message: err.message });
+    }
   }
 
   async deleteTransport(req, res) {

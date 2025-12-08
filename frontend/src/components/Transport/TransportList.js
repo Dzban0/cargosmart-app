@@ -1,10 +1,10 @@
 import React from "react";
 
 const TransportList = ({ transports, onDelete, onEdit }) => {
-  if (transports.length === 0) {
+  if (!transports || transports.length === 0) {
     return (
       <div className="transport-list">
-        <h>Brak zleceń transportowych.</h>
+        <h3>Brak zleceń transportowych.</h3>
       </div>
     );
   }
@@ -15,7 +15,8 @@ const TransportList = ({ transports, onDelete, onEdit }) => {
         <tr>
           <th>Kierowca</th>
           <th>Pojazd</th>
-          <th>Trasa</th>
+          <th>Odbiór</th>
+          <th>Cel</th>
           <th>Status</th>
           <th>Akcje</th>
         </tr>
@@ -23,15 +24,16 @@ const TransportList = ({ transports, onDelete, onEdit }) => {
 
       <tbody>
         {transports.map((t) => (
-          <tr key={t.id}>
+          <tr key={t._id || t.id}>
             <td>{t.driver}</td>
             <td>{t.vehicle}</td>
-            <td>{t.route}</td>
+            <td>{t.pickup}</td>
+            <td>{t.destination}</td>
             <td>{t.status}</td>
 
             <td>
               <button onClick={() => onEdit(t)}>Edytuj</button>
-              <button className="delete" onClick={() => onDelete(t.id)}>
+              <button className="delete" onClick={() => onDelete(t._id || t.id)}>
                 Usuń
               </button>
             </td>
