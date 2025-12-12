@@ -43,7 +43,6 @@ const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEd
       <ul> 
         {warehouses.map((warehouse) => ( 
           <li key={warehouse.id} className="warehouse-item" onClick={() => onSelectWarehouse(warehouse)}> 
-          
             <div> 
               <p className="warehouse-name">Magazyn {warehouse.name}</p>
               <p className="warehouse-location">{warehouse.address}, {warehouse.place}</p>

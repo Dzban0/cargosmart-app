@@ -14,8 +14,6 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px;
-  background-color: #007bff;
-  color: white;
 }
 
 .settings-header h2 {
@@ -52,7 +50,7 @@
 .setting button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 5px;
@@ -60,7 +58,8 @@
 }
 
 .setting button:hover {
-  background-color: #0056b3;
+  background-color: #ffffff;
+  color: #000000;
 }
 
 .user-form {

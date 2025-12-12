@@ -7,14 +7,12 @@ function SettingsPage({ onClose }) {
     lastName: '',
     username: ''
   });
-  const [isFormVisible, setIsFormVisible] = useState(false); // Stan do kontrolowania widoczności formularza
-  const [darkMode, setDarkMode] = useState(false); // Tryb jasny/ciemny
-
-  // Pobieranie danych użytkownika
+  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/user');
+        const response = await fetch('http://localhost:3001/api/user');
         const data = await response.json();
         setUserData({
           firstName: data.firstName,
@@ -29,7 +27,6 @@ function SettingsPage({ onClose }) {
     fetchUserData();
   }, []);
 
-  // Obsługuje zmiany w formularzu
   const handleChange = (e) => {
     const { name, value } = e.target;
     setUserData({
@@ -38,10 +35,9 @@ function SettingsPage({ onClose }) {
     });
   };
 
-  // Funkcja zapisywania zmian w danych użytkownika
   const handleSave = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/user', {
+      const response = await fetch('http://localhost:3001/api/user', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +47,7 @@ function SettingsPage({ onClose }) {
 
       if (response.ok) {
         alert('Dane zostały zapisane!');
-        onClose(); // Zamknij ustawienia po zapisaniu
+        onClose();
       } else {
         alert('Błąd podczas zapisywania danych');
       }
@@ -61,7 +57,6 @@ function SettingsPage({ onClose }) {
     }
   };
 
-  // Zmiana trybu jasnego/ciemnego
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => !prevMode);
     document.body.classList.toggle('dark-mode', !darkMode);

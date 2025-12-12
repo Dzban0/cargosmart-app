@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import WorkerList from "./WorkerList";
 import "./Workers.css";
 
 function Workers() {
@@ -20,14 +21,8 @@ function Workers() {
     return (
         <div className="workers-container">
             <h2>Lista pracowników</h2>
-            <ul className="workers-item">
-                {workers.map(worker => (
-                    <li key={worker.id}>
-                        <p className="worker-name">{worker.firstName} {worker.lastName}</p>
-                        <p className="worker-position">Stanowisko: {worker.position}</p>
-                    </li>
-                ))}
-            </ul>
+            
+            <WorkerList />
 
             <div>
                 <h2>Dodawanie</h2>
