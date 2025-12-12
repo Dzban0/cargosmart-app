@@ -10,52 +10,68 @@ function Workers() {
         { id: 2, firstName: "Piotr", lastName: "Nowak", position: "Spedytor" },
         { id: 3, firstName: "Ewa", lastName: "Kowalska", position: "Magazynier" }
     ]);
+
     const [newWorker, setNewWorker] = useState({ firstName: "", lastName: "", position: "" });
 
     const handleAddWorker = () => {
         const newId = workers.length + 1;
         setWorkers([...workers, { ...newWorker, id: newId }]);
         setNewWorker({ firstName: "", lastName: "", position: "" });
+        setShowForm(false);
+    };
+
+    const handleDeleteWorker = (id) => {
+        setWorkers(workers.filter(w => w.id !== id));
+    };
+
+    const handleEditWorker = (worker) => {
+        alert(`Edytuj: ${worker.firstName} ${worker.lastName}`);
+    };
+
+    const handleViewContents = (worker) => {
+        alert(`Dane pracownika:\n${worker.firstName} ${worker.lastName}`);
     };
 
     return (
         <div className="workers-container">
             <h2>Lista pracowników</h2>
             
-            <WorkerList />
+            <WorkerList 
+                workers={workers}
+                onWorkerDeleted={handleDeleteWorker}
+                onEditWorker={handleEditWorker}
+                onViewContents={handleViewContents}
+                onSelectWorker={(worker) => console.log("Wybrano:", worker)}
+            />
 
-            <div>
-                <h2>Dodawanie</h2>
-                <button onClick={() => setShowForm(true)}>
-                    Dodaj nowego pracownika
-                </button>
-            </div>
+            <h2>Dodawanie</h2>
+            <button onClick={() => setShowForm(true)}>
+                Dodaj nowego pracownika
+            </button>
 
             {showForm && (
-                <div>
-                <input
-                    type="text"
-                    value={newWorker.firstName}
-                    onChange={(e) => setNewWorker({ ...newWorker, firstName: e.target.value })}
-                    placeholder="Imię"
-                />
-                <input
-                    type="text"
-                    value={newWorker.lastName}
-                    onChange={(e) => setNewWorker({ ...newWorker, lastName: e.target.value })}
-                    placeholder="Nazwisko"
-                />
-                <input
-                    type="text"
-                    value={newWorker.position}
-                    onChange={(e) => setNewWorker({ ...newWorker, position: e.target.value })}
-                    placeholder="Stanowisko"
-                />
-                <button onClick={handleAddWorker}>Dodaj pracownika</button>
-            </div>
+                <div className="add-worker-form">
+                    <input
+                        type="text"
+                        value={newWorker.firstName}
+                        onChange={(e) => setNewWorker({ ...newWorker, firstName: e.target.value })}
+                        placeholder="Imię"
+                    />
+                    <input
+                        type="text"
+                        value={newWorker.lastName}
+                        onChange={(e) => setNewWorker({ ...newWorker, lastName: e.target.value })}
+                        placeholder="Nazwisko"
+                    />
+                    <input
+                        type="text"
+                        value={newWorker.position}
+                        onChange={(e) => setNewWorker({ ...newWorker, position: e.target.value })}
+                        placeholder="Stanowisko"
+                    />
+                    <button onClick={handleAddWorker}>Dodaj pracownika</button>
+                </div>
             )}
-
-            
         </div>
     );
 }
