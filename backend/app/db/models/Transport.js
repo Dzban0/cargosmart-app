@@ -1,15 +1,24 @@
 const mongoose = require("mongoose");
 
 const transportSchema = new mongoose.Schema({
-  type: { type: String, required: true },
   pickup: { type: String, required: true },
-  destination: {type: String, required: true },
-  vehicle: { type: String },
-  driver: { type: String },
-  status: { type: String, default: "oczekuje" },
-  description: { type: String },
-}, { timestamps: true });
+  destination: { type: String, required: true },
+  driver: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Worker",
+    default: null,
+  },
+  vehicle: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Vehicle",
+    default: null,
+  },
+  status: {
+    type: String,
+    enum: ["planowany", "w trakcie", "zakończony"],
+    default: "planowany",
+  },
+  description: String,
+});
 
-const Transport = mongoose.model("Transport", transportSchema);
-
-module.exports = Transport;
+module.exports = mongoose.model("Transport", transportSchema);

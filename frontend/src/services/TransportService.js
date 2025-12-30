@@ -2,50 +2,46 @@ import { getAuthHeader } from "./authService";
 import { API_URL } from "./api";
 
 const TransportService = {
-  getTransports: async () => {
-    const res = await fetch(`${API_URL}/transports`, {
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeader(),
-      },
-    });
+  async request(url, options = {}) {
+    const res = await fetch(url, options);
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Błąd serwera");
+    }
+
+    if (res.status === 204) return null;
     return res.json();
   },
 
-  addTransport: async (transport) => {
-    const res = await fetch(`${API_URL}/transports`, {
+  getTransports() {
+    return this.request(`${API_URL}/transports`, {
+      headers: { "Content-Type": "application/json", ...getAuthHeader() }
+    });
+  },
+
+  addTransport(data) {
+    return this.request(`${API_URL}/transports`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeader(),
-      },
-      body: JSON.stringify(transport),
+      headers: { "Content-Type": "application/json", ...getAuthHeader() },
+      body: JSON.stringify(data),
     });
-    return res.json();
   },
 
-  updateTransport: async (id, transport) => {
-    const res = await fetch(`${API_URL}/transports/${id}`, {
+  updateTransport(id, data) {
+    return this.request(`${API_URL}/transports/${id}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeader(),
-      },
-      body: JSON.stringify(transport),
+      headers: { "Content-Type": "application/json", ...getAuthHeader() },
+      body: JSON.stringify(data),
     });
-    return res.json();
   },
 
-  deleteTransport: async (id) => {
-    await fetch(`${API_URL}/transports/${id}`, {
+  deleteTransport(id) {
+    return this.request(`${API_URL}/transports/${id}`, {
       method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        ...getAuthHeader(),
-      },
+      headers: { "Content-Type": "application/json", ...getAuthHeader() },
     });
   },
-
 };
 
 export default TransportService;

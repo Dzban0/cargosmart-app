@@ -1,46 +1,27 @@
-import React from "react";
+const TransportList = ({ transports, onEdit, onDelete }) => {
 
-const TransportList = ({ transports, onDelete, onEdit }) => {
-  if (!transports || transports.length === 0) {
-    return (
-      <div className="transport-list">
-        <h3>Brak zleceń transportowych.</h3>
-      </div>
-    );
+  if (!transports.length) {
+    return <p>Brak zleceń</p>;
   }
 
   return (
-    <table className="transport-table">
-      <thead>
-        <tr>
-          <th>Kierowca</th>
-          <th>Pojazd</th>
-          <th>Odbiór</th>
-          <th>Cel</th>
-          <th>Status</th>
-          <th>Akcje</th>
-        </tr>
-      </thead>
+    <ul className="transport-list">
+      {transports.map(t => (
+        <li key={t._id} className="transport-item">
+          <div>
+            <strong>{t.pickup} → {t.destination}</strong><br />
+            Status: {t.status}<br />
+            Kierowca: {t.driver ? `${t.driver.firstName} ${t.driver.lastName}` : "—"}<br />
+            Pojazd: {t.vehicle ? t.vehicle.name : "—"}
+          </div>
 
-      <tbody>
-        {transports.map((t) => (
-          <tr key={t._id || t.id}>
-            <td>{t.driver}</td>
-            <td>{t.vehicle}</td>
-            <td>{t.pickup}</td>
-            <td>{t.destination}</td>
-            <td>{t.status}</td>
-
-            <td>
-              <button onClick={() => onEdit(t)}>Edytuj</button>
-              <button className="delete" onClick={() => onDelete(t._id || t.id)}>
-                Usuń
-              </button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+          <div className="actions">
+            <button onClick={() => onEdit(t)}>Edytuj</button>
+            <button onClick={() => onDelete(t._id)}>Usuń</button>
+          </div>
+        </li>
+      ))}
+    </ul>
   );
 };
 

@@ -10,6 +10,7 @@ import Support from "../Support/Support";
 function HomePage({ onLogout }) {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [selectedWarehouse, setSelectedWarehouse] = useState(null);
+  const [selectedTransport, setSelectedTransport] = useState(null);
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isSupportOpen, setIsSupportOpen] = useState(false);
 
@@ -77,11 +78,8 @@ function HomePage({ onLogout }) {
 
       <div className="tab-content">
         {activeTab === "dashboard" && <Dashboard />}
-        {activeTab === "magazyn" && <Warehouses 
-          onSelectWarehouse={(id) => setSelectedWarehouse(id)} 
-          selectedWarehouse={selectedWarehouse}
-        />}
-        {activeTab === "transport" && <Transport />}
+        {activeTab === "magazyn" && <Warehouses onSelectWarehouse={(id) => setSelectedWarehouse(id)} selectedWarehouse={selectedWarehouse} />}
+        {activeTab === "transport" && <Transport onSelectTransport={(id) => setSelectedTransport(id)} selectedTransport={selectedTransport} />}
         {activeTab === "dokument" && <Document />}
       </div>
     </div>

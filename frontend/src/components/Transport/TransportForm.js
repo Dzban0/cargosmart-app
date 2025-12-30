@@ -1,131 +1,120 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
-const TransportForm = ({ onAdd, onUpdate, editing, vehicles, drivers, isDriverBusy, isVehicleBusy, onCancelEdit }) => {
+const TransportForm = ({
+  editing,
+  onAdd,
+  onUpdate,
+  onCancelEdit,
+  drivers,
+  vehicles,
+  isDriverBusy,
+  isVehicleBusy
+}) => {
+
   const [formData, setFormData] = useState({
-    driver: "",
-    vehicle: "",
     pickup: "",
     destination: "",
-    status: "planowany",
+    driver: "",
+    vehicle: "",
+    status: "planowany"
   });
 
   const [error, setError] = useState("");
 
   useEffect(() => {
     if (editing) {
-      setFormData(editing);
-    } else {
       setFormData({
-        driver: "",
-        vehicle: "",
-        pickup: "",
-        destination: "",
-        status: "planowany",
+        _id: editing._id,
+        pickup: editing.pickup,
+        destination: editing.destination,
+        driver: editing.driver?._id || "",
+        vehicle: editing.vehicle?._id || "",
+        status: editing.status
       });
     }
   }, [editing]);
 
   const validate = () => {
-    if (isDriverBusy(formData.driver) && formData.status !== "zakończony") {
-      return "Ten kierowca ma aktywny transport.";
+    if (formData.driver && isDriverBusy(formData.driver)) {
+      return "Kierowca jest zajęty";
     }
-    if (isVehicleBusy(formData.vehicle) && formData.status !== "zakończony") {
-      return "Ten pojazd jest już w użyciu.";
+    if (formData.vehicle && isVehicleBusy(formData.vehicle)) {
+      return "Pojazd jest zajęty";
     }
     return "";
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    const err = validate();
-    if (err) {
-      setError(err);
-      return;
-    }
-
     setError("");
 
-    if (editing) onUpdate(formData);
-    else onAdd(formData);
+    const err = validate();
+    if (err) return setError(err);
 
-    setFormData({
-      driver: "",
-      vehicle: "",
-      pickup: "",
-      destination: "",
-      status: "planowany",
-    });
+    const payload = {
+      ...formData,
+      driver: formData.driver || null,
+      vehicle: formData.vehicle || null,
+    };
+
+    editing ? onUpdate(payload) : onAdd(payload);
   };
 
   return (
-    <form className="transport-form" onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="transport-form">
       <h3>{editing ? "Edytuj transport" : "Dodaj transport"}</h3>
 
       {error && <p className="error">{error}</p>}
 
+      <input
+        required
+        placeholder="Odbiór"
+        value={formData.pickup}
+        onChange={e => setFormData({ ...formData, pickup: e.target.value })}
+      />
+
+      <input
+        required
+        placeholder="Cel"
+        value={formData.destination}
+        onChange={e => setFormData({ ...formData, destination: e.target.value })}
+      />
+
       <select
         value={formData.driver}
-        onChange={(e) => setFormData({ ...formData, driver: e.target.value })}
-        required
+        onChange={e => setFormData({ ...formData, driver: e.target.value })}
       >
         <option value="">Wybierz kierowcę</option>
-        {drivers.map((d) => (
-          <option key={d.id || d._id} value={d.name}>
-            {d.name}
+        {drivers.map(d => (
+          <option key={d._id} value={d._id}>
+            {d.firstName} {d.lastName}
           </option>
         ))}
       </select>
 
       <select
         value={formData.vehicle}
-        onChange={(e) => setFormData({ ...formData, vehicle: e.target.value })}
-        required
+        onChange={e => setFormData({ ...formData, vehicle: e.target.value })}
       >
         <option value="">Wybierz pojazd</option>
-        {vehicles.map((v) => (
-          <option key={v.id || v._id} value={v.name}>
-            {v.name}
+        {vehicles.map(v => (
+          <option key={v._id} value={v._id}>
+            {v.name} ({v.registration})
           </option>
         ))}
       </select>
 
-      <input
-        type="text"
-        placeholder="Miejsce odbioru"
-        value={formData.pickup}
-        onChange={(e) => setFormData({ ...formData, pickup: e.target.value })}
-        required
-      />
-
-      <input
-        type="text"
-        placeholder="Miejsce docelowe"
-        value={formData.destination}
-        onChange={(e) =>
-          setFormData({ ...formData, destination: e.target.value })
-        }
-        required
-      />
-
       <select
         value={formData.status}
-        onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+        onChange={e => setFormData({ ...formData, status: e.target.value })}
       >
         <option value="planowany">Planowany</option>
         <option value="w trakcie">W trakcie</option>
         <option value="zakończony">Zakończony</option>
       </select>
 
-      <div className="action-buttons">
-        <button type="submit">
-          {editing ? "Zapisz zmiany" : "Dodaj transport"}
-        </button>
-
-        <button type="button" onClick={onCancelEdit} className="cancel">
-          Anuluj
-        </button>
-      </div>
+      <button type="submit">{editing ? "Zapisz" : "Dodaj"}</button>
+      <button type="button" onClick={onCancelEdit}>Anuluj</button>
     </form>
   );
 };

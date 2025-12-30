@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import "./Vehicles.css";
-// import VehicleService from "../../services/VehicleService";
 
 function Vehicles({ vehicles }) {
     const [showForm, setShowForm] = useState(false);
@@ -11,7 +10,7 @@ function Vehicles({ vehicles }) {
         { id: 3, name: "Renault Master", type: "", registration: "PO 99887", capacity: "", weight: "" }
     ]);
 
-    const [newVehicle, setNewVehicle] = useState({ firstName: "", lastName: "", position: "" });
+    const [newVehicle, setNewVehicle] = useState({ name: "", type: "", registration: "",  capacity: "", weight: "" });
     
     const handleAddVehicle = () => {
         const newId = vehicle.length + 1;
@@ -19,7 +18,17 @@ function Vehicles({ vehicles }) {
         setNewVehicle({ name: "", type: "", registration: "", capacity: "", weight: ""});
     };
 
- 
+    const handleDeleteVehicle = (id) => {
+        setVehicles(vehicles.filter(w => w.id !== id));
+    };
+
+    const handleEditVehicle = (vehicle) => {
+        alert(`Edytuj`);
+    };
+
+    const handleViewContents = (vehicle) => {
+        alert(`Dane`);
+    };
 
     return (
         <div className="vehicles-container">

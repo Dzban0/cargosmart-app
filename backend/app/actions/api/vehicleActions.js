@@ -4,10 +4,10 @@ class VehicleActions {
 
   async saveVehicle(req, res) {
     const name = req.body.name;
-    const type = req.body.name;
-    const registration = req.body.name;
-    const capacity = req.body.name;
-    const weight = req.body.name;
+    const type = req.body.type;
+    const registration = req.body.registration;
+    const capacity = req.body.capacity;
+    const weight = req.body.weight;
 
     let vehicle;
 
@@ -34,10 +34,10 @@ class VehicleActions {
   async updateVehicle(req, res) {
     const id = req.params.id;
     const name = req.body.name;
-    const type = req.body.name;
-    const registration = req.body.name;
-    const capacity = req.body.name;
-    const weight = req.body.name;
+    const type = req.body. type;
+    const registration = req.body.registration;
+    const capacity = req.body.capacity;
+    const weight = req.body.weight;
 
     const vehicle = await Worker.findOne({ _id: id });
     vehicle.name = name;

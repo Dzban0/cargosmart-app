@@ -49,16 +49,12 @@ const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEd
             </div>
           
             <div className="action-buttons"> 
-              <button onClick={(e) => handleEdit(e, warehouse)} className="submit">
+              <button onClick={(e) => handleEdit(e, warehouse)} className="contents">
                 Edytuj
               </button>
             
               <button onClick={(e) => handleViewContents(e, warehouse)} className="contents"> 
                 Asortyment
-              </button> 
-            
-              <button onClick={(e) => handleDelete(e, warehouse.id)} className="cancel">
-                Usuń
               </button> 
             </div> 
           

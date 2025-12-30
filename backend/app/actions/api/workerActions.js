@@ -36,25 +36,15 @@ class WorkerActions {
     
   }
 
-  async updateWarehouse(req, res) {
-    const id = req.params.id;
-    
-    const updatedData = {
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      position: req.body.position,
-      phone: req.body.phone,
-      email: req.body.email,
-    };
+  async updateWorker(req, res) {
+    const worker = await Worker.findById(req.params.id);
 
-    const worker = await Worker.findOne({ _id: id });
-    worker.firstName = firstName;
-    worker.lastName = lastName;
-    worker.position = position;
+    Object.assign(worker, req.body);
     await worker.save();
 
-    res.status(201).json(worker);
+    res.status(200).json(worker);
   }
+
 
   async deleteWorker(req, res) {
     const id = req.params.id;

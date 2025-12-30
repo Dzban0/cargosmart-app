@@ -75,7 +75,7 @@ const ProductForm = ({ warehouseId, productToEdit, onSave, onCancel }) => {
         ))}
       </select>
 
-      <div className="package-dimensions" style={{ display: "flex", gap: "0.5rem", marginTop: "0.5rem" }}>
+      <div className="package-dimensions">
         <input
           type="number"
           min="0"
@@ -99,7 +99,7 @@ const ProductForm = ({ warehouseId, productToEdit, onSave, onCancel }) => {
         />
       </div>
 
-      <div style={{ display: 'flex', gap: '0.5rem', marginTop: "0.5rem" }}>
+      <div>
         <input
           type="number"
           min="0"
@@ -119,7 +119,6 @@ const ProductForm = ({ warehouseId, productToEdit, onSave, onCancel }) => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         placeholder="Opis (opcjonalnie)"
-        style={{ marginTop: "0.5rem" }}
       />
 
       <div className="product-actions" style={{ marginTop: "1rem" }}>

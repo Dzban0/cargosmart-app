@@ -1,83 +1,92 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import TransportList from "./TransportList";
 import TransportForm from "./TransportForm";
 import TransportService from "../../services/TransportService";
-import "./Transport.css";
-
+import WorkerService from "../../services/WorkerService";
+import VehicleService from "../../services/VehicleService";
+import './Transport.css';
 
 const Transport = () => {
   const [transports, setTransports] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [editingTransport, setEditingTransport] = useState(null);
   const [vehicles, setVehicles] = useState([]);
   const [drivers, setDrivers] = useState([]);
-  const [editingTransport, setEditingTransport] = useState(null);
 
   useEffect(() => {
-    const storedTransports = localStorage.getItem("transports");
-    if (storedTransports) setTransports(JSON.parse(storedTransports));
+    TransportService.getTransports()
+      .then(setTransports)
+      .catch(console.error);
 
-    const storedVehicles = localStorage.getItem("vehicles");
-    if (storedVehicles) setVehicles(JSON.parse(storedVehicles));
+    WorkerService.getWorkers()
+      .then(setDrivers)
+      .catch(console.error);
 
-    const storedDrivers = localStorage.getItem("drivers");
-    if (storedDrivers) setDrivers(JSON.parse(storedDrivers));
+    VehicleService.getVehicles()
+      .then(setVehicles)
+      .catch(console.error);
   }, []);
 
-  const saveTransports = (list) => {
-    setTransports(list);
-    localStorage.setItem("transports", JSON.stringify(list));
-  };
-
-  const isDriverBusy = (driverName) =>
+  const isDriverBusy = (driverId) =>
     transports.some(
-      (t) => t.driver === driverName && t.status === "w trakcie"
+      (t) =>
+        t.driver?._id === driverId &&
+        t.status === "w trakcie" &&
+        t._id !== editingTransport?._id
     );
 
-  const isVehicleBusy = (vehicleName) =>
+  const isVehicleBusy = (vehicleId) =>
     transports.some(
-      (t) => t.vehicle === vehicleName && t.status === "w trakcie"
+      (t) =>
+        t.vehicle?._id === vehicleId &&
+        t.status === "w trakcie" &&
+        t._id !== editingTransport?._id
     );
 
   const handleAddTransport = async (data) => {
     const newTransport = await TransportService.addTransport(data);
-    setTransports([...transports, newTransport]);
+    setTransports((prev) => [...prev, newTransport]);
+    setShowForm(false);
   };
 
-  const handleEditTransport = async (t) => {
-    setEditingTransport(t);
-  };
-
-  const handleUpdateTransport = async (updatedData) => {
-    const updated = await TransportService.updateTransport(updatedData._id, updatedData);
-    setTransports(
-      transports.map((t) => t._id === updated._id ? updated : t)
+  const handleUpdateTransport = async (data) => {
+    const updated = await TransportService.updateTransport(data._id, data);
+    setTransports((prev) =>
+      prev.map((t) => (t._id === updated._id ? updated : t))
     );
     setEditingTransport(null);
+    setShowForm(false);
   };
 
   const handleDeleteTransport = async (id) => {
     await TransportService.deleteTransport(id);
-    setTransports(transports.filter((t) => t._id !== id));
+    setTransports((prev) => prev.filter((t) => t._id !== id));
   };
 
+  const handleEditTransport = (transport) => {
+    setEditingTransport(transport);
+    setShowForm(true);
+  };
+
+  const handleCancel = () => {
+    setEditingTransport(null);
+    setShowForm(false);
+  };
 
   return (
     <div className="transport-container">
-      <h2>Transport - Zarządzanie kursami</h2>
+      <h2>Transport</h2>
 
-      <div>
-        <button onClick={() => setShowForm(true)} className="add">
-          Dodaj zlecenie
-        </button>
-      </div>
+      <button onClick={() => setShowForm(true)}>Dodaj zlecenie</button>
 
       {showForm && (
         <TransportForm
+          editing={editingTransport}
           onAdd={handleAddTransport}
           onUpdate={handleUpdateTransport}
-          editing={editingTransport}
-          vehicles={vehicles.filter((v) => !isVehicleBusy(v.name) || editingTransport?.vehicle === v.name)}
-          drivers={drivers.filter((d) => !isDriverBusy(d.name) || editingTransport?.driver === d.name)}
+          onCancelEdit={handleCancel}
+          drivers={drivers}
+          vehicles={vehicles}
           isDriverBusy={isDriverBusy}
           isVehicleBusy={isVehicleBusy}
         />
@@ -85,8 +94,8 @@ const Transport = () => {
 
       <TransportList
         transports={transports}
-        onDelete={handleDeleteTransport}
         onEdit={handleEditTransport}
+        onDelete={handleDeleteTransport}
       />
     </div>
   );

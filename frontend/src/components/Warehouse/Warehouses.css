@@ -124,32 +124,12 @@ button {
   border: none;
 }
 
-.action-buttons .contents {
+.action-buttons .contents, .action-buttons .submit {
   background-color: #0051ff;
   color: #ffffff;
 }
 
-.action-buttons .contents:hover {
+.action-buttons .contents:hover, .action-buttons .submit:hover {
   background-color: #ffffff;
   color: #0051ff;
-}
-
-.action-buttons .submit {
-  background-color: #00ff1e;
-  color: #ffffff;
-}
-
-.action-buttons .submit:hover {
-  background-color: #ffffff;
-  color: #00ff1e;
-}
-
-.action-buttons .cancel {
-  background-color: #ff0000;
-  color: #ffffff;
-}
-
-.action-buttons .cancel:hover {
-  background-color: #ffffff;
-  color: #ff0000;
 }

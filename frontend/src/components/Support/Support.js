@@ -34,10 +34,10 @@ function Support({ onClose }) {
       </div>
 
       <div className="support-content">
-        <button>P1</button>
-        <button>P2</button>
-        <button>P3</button>
-        <button>P4</button>
+        <button>D1</button>
+        <button>D2</button>
+        <button>D3</button>
+        <button>D4</button>
         <button onClick={handleOpenFAQ}>FAQ</button>
       </div>
     </div>

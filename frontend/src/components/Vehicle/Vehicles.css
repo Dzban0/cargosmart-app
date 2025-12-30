@@ -4,3 +4,17 @@
   margin: 0 auto;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.vehicles-item {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
+
+  background: #ffffff;
+  padding: 1rem;
+  margin-bottom: 0.7rem;
+  border-radius: 8px;
+
+  border: 1px solid #ffffff;
+  transition: 0.2s ease-in-out;
+}
