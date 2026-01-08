@@ -12,7 +12,7 @@ class WorkerActions {
     let worker;
 
     try {
-      worker = new Worker({ firstName, lastName, position});
+      worker = new Worker({ firstName, lastName, position, phone, email});
       await worker.save();
     } catch (err) {
       return res.status(422).json({ message: err.message });

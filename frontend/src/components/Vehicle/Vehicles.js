@@ -4,7 +4,7 @@ import VehicleService from "../../services/VehicleService";
 
 function Vehicles({ vehicles }) {
     const [vehicle, setVehicles] = useState([
-        { name: "Ford Transit", type: "A", registration: "KR 12345", capacity: "", weight: "" },
+        { name: "Ford Transit", type: "Furgon", registration: "KR 12345", capacity: "", weight: "" },
         { name: "Renault Master", type: "samochód dostawczy kat. N1", registration: "PO 99887", capacity: "", weight: "" }
     ]);
     const [showForm, setShowForm] = useState(false);

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const workerActions = require("../../actions/api/workerActions");
+const workerActions = require("../actions/api/workerActions");
 
 router.get("workers/", workerActions.getAllWorkers);
 router.get("workers/:id", workerActions.getWorker);
