@@ -1,33 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Vehicles.css";
+import VehicleService from "../../services/VehicleService";
 
 function Vehicles({ vehicles }) {
-    const [showForm, setShowForm] = useState(false);
-
     const [vehicle, setVehicles] = useState([
-        { id: 1, name: "Ford Transit", type: "", registration: "KR 12345", capacity: "", weight: "" },
-        { id: 2, name: "Mercedes Sprinter", type: "", registration: "WA 67890", capacity: "", weight: "" },
-        { id: 3, name: "Renault Master", type: "", registration: "PO 99887", capacity: "", weight: "" }
+        { name: "Ford Transit", type: "A", registration: "KR 12345", capacity: "", weight: "" },
+        { name: "Renault Master", type: "samochód dostawczy kat. N1", registration: "PO 99887", capacity: "", weight: "" }
     ]);
-
+    const [showForm, setShowForm] = useState(false);
     const [newVehicle, setNewVehicle] = useState({ name: "", type: "", registration: "",  capacity: "", weight: "" });
+    const [vehicleToEdit, setVehicleToEdit] = useState(null);
+    const [selectedVehicle, setSelectedVehicle] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
     
-    const handleAddVehicle = () => {
-        const newId = vehicle.length + 1;
-        setVehicles([...vehicle, { ...newVehicle, id: newId }]);
-        setNewVehicle({ name: "", type: "", registration: "", capacity: "", weight: ""});
+    const fetchVehicles = async () => {
+        try {
+            const data = await VehicleService.getWorkers();
+            setVehicles(data);
+        } catch (error) {
+            console.error("Błąd przy pobieraniu", error);
+        }
     };
 
-    const handleDeleteVehicle = (id) => {
-        setVehicles(vehicles.filter(w => w.id !== id));
+    useEffect(() => {
+        fetchVehicles();
+    }, []);
+    
+    const handleVehicleAdded = async () => {
+        await fetchVehicles();
+        setVehicleToEdit(null);
+        setShowForm(false);
     };
 
     const handleEditVehicle = (vehicle) => {
-        alert(`Edytuj`);
+        setVehicleToEdit(vehicle);
+        setShowForm(true);
+    };
+
+    const handleCancel = () => {
+        setVehicleToEdit(null);
+        setShowForm(false);
     };
 
     const handleViewContents = (vehicle) => {
-        alert(`Dane`);
+        setSelectedVehicle(vehicle);
     };
 
     return (
@@ -38,10 +54,7 @@ function Vehicles({ vehicles }) {
                 {vehicle.map(vehicle => (
                     <li key={vehicle.id}>
                         <p className="vehicle-name">{vehicle.name}</p>
-                        <p className="vehicle-type">Typ pojazdu: {vehicle.type}</p>
-                        <p className="vehicle-registration">Rejestracja: {vehicle.registration}</p>
-                        <p className="vehicle-capacity">Pojemność:{vehicle.capacity}</p>
-                        <p className="vehicle-weight">Masa: {vehicle.weight}</p>
+                        <p className="vehicle-type">Typ pojazdu: {vehicle.type}; Rejestracja: {vehicle.registration}</p>
                     </li>
                 ))}
             </ul>
@@ -87,7 +100,8 @@ function Vehicles({ vehicles }) {
                         placeholder="Waga pojazdu"
                     />
 
-                    <button onClick={handleAddVehicle}>Dodaj nowy pojazd</button>
+                    <button>Dodaj nowy pojazd</button>
+                    <button>Anuluj</button>
                 </div>
             )}
         </div>

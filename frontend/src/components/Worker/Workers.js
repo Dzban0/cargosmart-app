@@ -1,35 +1,48 @@
-import React, { useState } from "react";
-import WorkerList from "./WorkerList";
+import React, { useState, useEffect } from "react";
 import "./Workers.css";
+import WorkerService from "../../services/WorkerService";
+import WorkerForm from "./WorkerForm";
+import WorkerList from "./WorkerList";
 
 function Workers() {
-    const [showForm, setShowForm] = useState(false);
-
     const [workers, setWorkers] = useState([
-        { id: 1, firstName: "Marcin", lastName: "Musiał", position: "Kierowca" },
-        { id: 2, firstName: "Piotr", lastName: "Nowak", position: "Spedytor" },
-        { id: 3, firstName: "Ewa", lastName: "Kowalska", position: "Magazynier" }
+        { firstName: "Marcin", lastName: "Musiał", position: "Kierowca", phone: null, email: null}
     ]);
+    const [showForm, setShowForm] = useState(false);
+    const [workerToEdit, setWorkerToEdit] = useState(null);
+    const [selectedWorker, setSelectedWorker] = useState(null);
 
-    const [newWorker, setNewWorker] = useState({ firstName: "", lastName: "", position: "" });
+    const fetchWorkers = async () => {
+        try {
+            const data = await WorkerService.getWorkers();
+            setWorkers(data);
+        } catch (error) {
+            console.error("Błąd przy pobieraniu", error);
+        }
+    };
 
-    const handleAddWorker = () => {
-        const newId = workers.length + 1;
-        setWorkers([...workers, { ...newWorker, id: newId }]);
-        setNewWorker({ firstName: "", lastName: "", position: "" });
+    useEffect(() => {
+        fetchWorkers();
+    }, []);
+    
+    const handleWorkerAdded = async () => {
+        await fetchWorkers();
+        setWorkerToEdit(null);
         setShowForm(false);
     };
 
-    const handleDeleteWorker = (id) => {
-        setWorkers(workers.filter(w => w.id !== id));
+    const handleEditWorker = (worker) => {
+        setWorkerToEdit(worker);
+        setShowForm(true);
     };
 
-    const handleEditWorker = (worker) => {
-        alert(`Edytuj: ${worker.firstName} ${worker.lastName}`);
+    const handleCancel = () => {
+        setWorkerToEdit(null);
+        setShowForm(false);
     };
 
     const handleViewContents = (worker) => {
-        alert(`Dane pracownika:\n${worker.firstName} ${worker.lastName}`);
+        setSelectedWorker(worker);
     };
 
     return (
@@ -38,39 +51,23 @@ function Workers() {
             
             <WorkerList 
                 workers={workers}
-                onWorkerDeleted={handleDeleteWorker}
                 onEditWorker={handleEditWorker}
                 onViewContents={handleViewContents}
                 onSelectWorker={(worker) => console.log("Wybrano:", worker)}
             />
 
             <h2>Dodawanie</h2>
+            
             <button onClick={() => setShowForm(true)}>
                 Dodaj nowego pracownika
             </button>
 
             {showForm && (
-                <div className="add-worker-form">
-                    <input
-                        type="text"
-                        value={newWorker.firstName}
-                        onChange={(e) => setNewWorker({ ...newWorker, firstName: e.target.value })}
-                        placeholder="Imię"
-                    />
-                    <input
-                        type="text"
-                        value={newWorker.lastName}
-                        onChange={(e) => setNewWorker({ ...newWorker, lastName: e.target.value })}
-                        placeholder="Nazwisko"
-                    />
-                    <input
-                        type="text"
-                        value={newWorker.position}
-                        onChange={(e) => setNewWorker({ ...newWorker, position: e.target.value })}
-                        placeholder="Stanowisko"
-                    />
-                    <button onClick={handleAddWorker}>Dodaj pracownika</button>
-                </div>
+                <WorkerForm
+                    workerToEdit={workerToEdit}
+                    onWorkerAdded={handleWorkerAdded}
+                    onCancelEdit={handleCancel}
+                />
             )}
         </div>
     );

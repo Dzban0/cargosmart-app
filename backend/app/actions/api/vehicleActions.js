@@ -34,19 +34,19 @@ class VehicleActions {
   async updateVehicle(req, res) {
     const id = req.params.id;
     const name = req.body.name;
-    const type = req.body. type;
+    const type = req.body.type;
     const registration = req.body.registration;
     const capacity = req.body.capacity;
     const weight = req.body.weight;
 
-    const vehicle = await Worker.findOne({ _id: id });
+    const vehicle = await Vehicle.findOne({ _id: id });
     vehicle.name = name;
     vehicle.type = type;
     vehicle.registration = registration;
     vehicle.capacity = capacity;
     vehicle.weight = weight;
-
     await vehicle.save();
+
     res.status(201).json(vehicle);
   }
 

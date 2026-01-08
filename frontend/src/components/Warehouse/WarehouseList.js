@@ -18,7 +18,7 @@ const WarehouseList = ({ warehouses, onSelectWarehouse, onWarehouseDeleted, onEd
     } 
   };
 
-  const handleDelete = async (e, id) => { e.stopPropagation(); 
+  const handleDelete = async (e, id) => {  
     e.stopPropagation();
     if (window.confirm("Czy na pewno chcesz usunąć ten magazyn?")) { 
       try {

@@ -1,4 +1,19 @@
-const TransportList = ({ transports, onEdit, onDelete }) => {
+import api from "../../services/TransportService"; 
+
+const TransportList = ({ transports, onEdit, onDelete, onTransportDeleted, onEditTransport, onViewContents }) => {
+  const handleViewContents = (e, transport) => { 
+    e.stopPropagation(); 
+    if (onViewContents) { 
+      onViewContents(transport); 
+    } 
+  }; 
+  
+  const handleEdit = (e, transport) => {
+    e.stopPropagation(); 
+    if (onEditTransport) {
+      onEditTransport(transport); 
+    } 
+  };
 
   if (!transports.length) {
     return <p>Brak zleceń</p>;

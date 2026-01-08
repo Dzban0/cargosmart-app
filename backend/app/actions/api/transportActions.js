@@ -10,6 +10,8 @@ class TransportActions {
     const status = req.body.status;
     const description = req.body.description;
 
+    
+
     if (driver || vehicle) {
       const conflict = await Transport.findOne({
         status: "w trakcie",
@@ -24,19 +26,16 @@ class TransportActions {
       }
     }
 
-    const transport = new Transport({
-      pickup,
-      destination,
-      driver: driver || null,
-      vehicle: vehicle || null,
-      status,
-      description
-    });
+    let transport;
 
-    await transport.save();
-
-    const populated = await transport.populate("driver vehicle");
-    res.status(201).json(populated);
+    try {
+      transport = new Transport({ pickup, destination, driver, status, description});
+      await transport.save();
+    } catch (err) {
+      return res.status(422).json({ message: err.message });
+    }
+    
+    res.status(201).json(transport);
   }
 
   async getAllTransports(req, res) {

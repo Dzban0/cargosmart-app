@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const transportActions = require("../actions/api/transportActions");
 
 router.get("/transports", transportActions.getAllTransports);

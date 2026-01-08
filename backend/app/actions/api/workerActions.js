@@ -6,6 +6,8 @@ class WorkerActions {
     const firstName = req.body.firstName;
     const lastName = req.body.lastName;
     const position = req.body.position;
+    const phone = req.body.phone;
+    const email = req.body.email;
 
     let worker;
 
@@ -37,9 +39,18 @@ class WorkerActions {
   }
 
   async updateWorker(req, res) {
-    const worker = await Worker.findById(req.params.id);
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const position = req.body.position;
+    const phone = req.body.phone;
+    const email = req.body.email;
 
-    Object.assign(worker, req.body);
+    const worker = await Worker.findOne({ _id: id });
+    worker.firstName = firstName;
+    worker.lastName = lastName;
+    worker.position = position;
+    worker.phone = phone;
+    worker.email = email;
     await worker.save();
 
     res.status(200).json(worker);
