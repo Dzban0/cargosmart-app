@@ -45,6 +45,7 @@ class WorkerActions {
     const phone = req.body.phone;
     const email = req.body.email;
 
+    const id = req.params.id;
     const worker = await Worker.findOne({ _id: id });
     worker.firstName = firstName;
     worker.lastName = lastName;

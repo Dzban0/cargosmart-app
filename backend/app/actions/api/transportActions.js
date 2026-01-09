@@ -10,7 +10,6 @@ class TransportActions {
     const status = req.body.status;
     const description = req.body.description;
 
-    
 
     if (driver || vehicle) {
       const conflict = await Transport.findOne({
@@ -39,7 +38,7 @@ class TransportActions {
   }
 
   async getAllTransports(req, res) {
-    const transports = await Transport.find({})
+    const doc = await Transport.find({})
       .populate("driver")
       .populate("vehicle");
 
@@ -47,6 +46,7 @@ class TransportActions {
   }
 
   async getTransport(req, res) {
+    const id = req.params.id;
     const transport = await Transport.findById(req.params.id)
       .populate("driver")
       .populate("vehicle");

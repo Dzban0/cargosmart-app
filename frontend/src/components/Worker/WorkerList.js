@@ -41,7 +41,7 @@ const WorkerList = ({ workers, onSelectWorker, onWorkerDeleted, onEditWorker, on
         <div className="worker-list">
             <input
                 type="text"
-                placeholder="Znajdź magazyn"
+                placeholder="Znajdź"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 style={{ flex: 1, padding: "0.5rem" }}
@@ -50,8 +50,8 @@ const WorkerList = ({ workers, onSelectWorker, onWorkerDeleted, onEditWorker, on
             <ul className="workers-item">
                 {workers.map((worker) => (
                     <li key={worker.id} className="worker-item" onClick={() => onSelectWorker(worker)}>
-                        <p className="worker-name">{worker.firstName} {worker.lastName}</p>
-                        <p className="worker-position">Stanowisko: {worker.position}</p>
+                        <p>{worker.firstName} {worker.lastName}</p>
+                        <p>Stanowisko: {worker.position}</p>
 
                         <div className="action-buttons">
                             <button onClick={(e) => handleEdit(e, worker)}>
@@ -59,7 +59,7 @@ const WorkerList = ({ workers, onSelectWorker, onWorkerDeleted, onEditWorker, on
                             </button>
 
                             <button onClick={(e) => handleViewContents(e, worker)}>
-                                Kontakt
+                                Dane
                             </button>
 
                             <button onClick={(e) => handleDelete(e, worker.id)}>

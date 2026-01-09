@@ -35,7 +35,7 @@ const WorkerForm = ({ onWorkerAdded, workerToEdit, onCancelEdit }) => {
       setLastName("");
       setPosition("");
     } catch (error) {
-      console.error("Błąd przy zapisie magazynu:", error);
+      console.error("Błąd przy zapisie:", error);
     }
   };
 
@@ -43,7 +43,7 @@ const WorkerForm = ({ onWorkerAdded, workerToEdit, onCancelEdit }) => {
     <form onSubmit={handleSubmit} className="worker-form">
 
       <h2 className="edit">
-        {workerToEdit ? "Edytuj magazyn" : "Dodaj magazyn"}
+        {workerToEdit ? "Edytuj" : "Dodaj"}
       </h2>
 
       <input
@@ -62,13 +62,16 @@ const WorkerForm = ({ onWorkerAdded, workerToEdit, onCancelEdit }) => {
         required
       />
 
-      <input
-        type="text"
-        placeholder="Stanowisko"
+      <select
         value={position}
         onChange={(e) => setPosition(e.target.value)}
         required
-      />
+      >
+        <option value="">Stanowisko</option>
+        <option value="Kierowca">Kierowca</option>
+        <option value="Spedytor">Spedytor</option>
+        <option value="Magazynier">Magazynier</option>
+      </select>
 
       <div className="action-buttons">
         <button className="submit">

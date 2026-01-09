@@ -21,18 +21,23 @@ const TransportList = ({ transports, onEdit, onDelete, onTransportDeleted, onEdi
 
   return (
     <ul className="transport-list">
-      {transports.map(t => (
-        <li key={t._id} className="transport-item">
+      {transports.map((transport) => (
+        <li key={transport._id} className="transport-item">
           <div>
-            <strong>{t.pickup} → {t.destination}</strong><br />
-            Status: {t.status}<br />
-            Kierowca: {t.driver ? `${t.driver.firstName} ${t.driver.lastName}` : "—"}<br />
-            Pojazd: {t.vehicle ? t.vehicle.name : "—"}
+            <p><strong>{transport.pickup} - {transport.destination}</strong></p>
+            <p>Status: {transport.status}</p>
+            <p>Kierowca: {transport.driver ? `${transport.driver.firstName} ${transport.driver.lastName}` : "NN"}</p>
+            <p>Pojazd: {transport.vehicle ? transport.vehicle.name : "NN"}</p>
           </div>
 
           <div className="actions">
-            <button onClick={() => onEdit(t)}>Edytuj</button>
-            <button onClick={() => onDelete(t._id)}>Usuń</button>
+            <button disabled={transport.status === "zakończony"} onClick={() => onEdit(transport)}>
+              Edytuj
+            </button>
+
+            <button onClick={() => onDelete(transport._id)}>
+              Usuń
+            </button>
           </div>
         </li>
       ))}

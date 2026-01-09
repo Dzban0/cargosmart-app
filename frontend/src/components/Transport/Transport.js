@@ -73,6 +73,10 @@ const Transport = () => {
     setShowForm(false);
   };
 
+  const plannedTransports = transports.filter(t => t.status === "planowany");
+  const inProgressTransports = transports.filter(t => t.status === "w trakcie");
+  const finishedTransports = transports.filter(t => t.status === "zakończony");
+
   return (
     <div className="transport-container">
       <h2>Transport</h2>
@@ -92,8 +96,23 @@ const Transport = () => {
         />
       )}
 
+      <h3>Planowane</h3>
       <TransportList
-        transports={transports}
+        transports={plannedTransports}
+        onEdit={handleEditTransport}
+        onDelete={handleDeleteTransport}
+      />
+
+      <h3>W trakcie</h3>
+      <TransportList
+        transports={inProgressTransports}
+        onEdit={handleEditTransport}
+        onDelete={handleDeleteTransport}
+      />
+
+      <h3>Zakończone</h3>
+      <TransportList
+        transports={finishedTransports}
         onEdit={handleEditTransport}
         onDelete={handleDeleteTransport}
       />

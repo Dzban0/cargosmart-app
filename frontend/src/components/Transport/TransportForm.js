@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const TransportForm = ({
-  editing,
-  onAdd,
-  onUpdate,
-  onCancelEdit,
-  drivers,
-  vehicles,
-  isDriverBusy,
-  isVehicleBusy
-}) => {
+const TransportForm = ({ editing, onAdd, onUpdate, onCancelEdit, drivers, vehicles, isDriverBusy, isVehicleBusy }) => {
 
   const [formData, setFormData] = useState({
     pickup: "",
@@ -85,9 +76,11 @@ const TransportForm = ({
         onChange={e => setFormData({ ...formData, driver: e.target.value })}
       >
         <option value="">Wybierz kierowcę</option>
-        {drivers.map(d => (
-          <option key={d._id} value={d._id}>
-            {d.firstName} {d.lastName}
+        {drivers
+          .filter(worker => worker.position === "Kierowca")
+          .map(worker => (
+          <option key={worker._id} value={worker._id}>
+            {worker.firstName} {worker.lastName}
           </option>
         ))}
       </select>
@@ -99,7 +92,7 @@ const TransportForm = ({
         <option value="">Wybierz pojazd</option>
         {vehicles.map(v => (
           <option key={v._id} value={v._id}>
-            {v.name} ({v.registration})
+            {v.name}, ({v.registration})
           </option>
         ))}
       </select>

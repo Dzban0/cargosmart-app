@@ -5,9 +5,7 @@ import WorkerForm from "./WorkerForm";
 import WorkerList from "./WorkerList";
 
 function Workers() {
-    const [workers, setWorkers] = useState([
-        { firstName: "Marcin", lastName: "Musiał", position: "Kierowca", phone: null, email: null}
-    ]);
+    const [workers, setWorkers] = useState([]);
     const [showForm, setShowForm] = useState(false);
     const [workerToEdit, setWorkerToEdit] = useState(null);
     const [selectedWorker, setSelectedWorker] = useState(null);
