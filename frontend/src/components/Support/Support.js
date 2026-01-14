@@ -1,28 +1,52 @@
 import React, { useState } from 'react';
 import FAQ from './Doc/FAQ';
+import PdfViewer from '../../PdfViewer';
 import './Support.css';
 
 function Support({ onClose }) {
-  const [isFaqOpen, setIsFaqOpen] = useState(false);
+  const [view, setView] = useState(null);
 
-  const handleOpenFAQ = () => {
-    setIsFaqOpen(true);
+  const documents = {
+    user: {
+      title: 'Dokumentacja dla użytkownika',
+      file: './assets/Dokumentacja_dla_uzytkownika.pdf',
+    },
+    tech: {
+      title: 'Dokumentacja techniczna',
+      file: './assets/Dokumentacja_techniczna_systemu.pdf',
+    },
+    deploy: {
+      title: 'Procedura odbioru i wdrożenia',
+      file: './assets/Procedura_odbioru_i_wdrożenia.pdf',
+    },
+    maintain: {
+      title: 'Utrzymanie systemu',
+      file: './assets/Utrzymanie_systemu.pdf',
+    },
   };
 
-  const handleCloseFAQ = () => {
-    setIsFaqOpen(false);
-  };
 
-  if (isFaqOpen) {
+  if (view === 'faq') {
     return (
       <div className="support-page">
         <div className="support-header">
           <h2>FAQ</h2>
-          <button className="btn" onClick={handleCloseFAQ}>Powrót</button>
+          <button className="btn" onClick={() => setView(null)}>
+            Powrót
+          </button>
         </div>
-
         <FAQ />
       </div>
+    );
+  }
+
+  if (documents[view]) {
+    return (
+      <PdfViewer
+        title={documents[view].title}
+        file={documents[view].file}
+        onBack={() => setView(null)}
+      />
     );
   }
 
@@ -34,11 +58,26 @@ function Support({ onClose }) {
       </div>
 
       <div className="support-content">
-        <button>D1</button>
-        <button>D2</button>
-        <button>D3</button>
-        <button>D4</button>
-        <button onClick={handleOpenFAQ}>FAQ</button>
+        <p>
+          <button onClick={() => setView('user')}>
+            Dokumentacja dla użytkownika
+          </button>
+        </p>
+        <p>
+          <button onClick={() => setView('tech')}>
+            Dokumentacja techniczna
+          </button>
+        </p>
+        <p>
+          <button onClick={() => setView('deploy')}>
+            Procedura odbioru i wdrożenia
+          </button>
+        </p>
+        <p>
+          <button onClick={() => setView('maintain')}>
+            Utrzymanie systemu
+          </button>
+        </p>
       </div>
     </div>
   );
